@@ -1,4 +1,7 @@
 # tvz-ntpws-imdb
 
-user secrets: 
-"WatchMode": {ApiKey: key}
+properties:
+"TMDB": {
+    "ApiKey": "",
+    "BearerToken": ""
+}
