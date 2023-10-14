@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.Configure<WatchMode>(builder.Configuration.GetSection("WatchMode"));
+builder.Services.Configure<TmdbProperties>(builder.Configuration.GetSection(TmdbProperties.prefix));
 
 var app = builder.Build();
 

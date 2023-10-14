@@ -2,7 +2,8 @@
 
 namespace FlixVerse.Configuration;
 
-public class WatchMode
+public class TmdbProperties
 {
+    public static readonly string prefix = "TMDB";
     public string ApiKey { get; set; }
 }
