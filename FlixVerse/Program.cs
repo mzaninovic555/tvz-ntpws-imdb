@@ -1,6 +1,13 @@
 using FlixVerse.Configuration;
+using FlixVerse.Services.Database;
+using Microsoft.EntityFrameworkCore;
+
+const string dbString = "Server=localhost;Port=5432;Database=flixverse;User Id=flixverse;Password=flixverse;";
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Database
+builder.Services.AddDbContext<FlixverseDbContext>(options => options.UseNpgsql(dbString));
 
 // Add services to the container.
 
