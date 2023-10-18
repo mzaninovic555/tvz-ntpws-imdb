@@ -21,7 +21,7 @@ public class JwtService
     {
         List<Claim> claims = new List<Claim>
         {
-            new(ClaimTypes.Name, user.Username)
+            new (JwtRegisteredClaimNames.Name, user.Username)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
