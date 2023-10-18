@@ -18,6 +18,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<TmdbProperties>(builder.Configuration.GetSection(TmdbProperties.prefix));
 
+// Security
+builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
