@@ -1,6 +1,11 @@
+using System.Text;
 using FlixVerse.Configuration;
 using FlixVerse.Services.Database;
+using FlixVerse.Services.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 const string dbString = "Server=localhost;Port=5432;Database=flixverse;User Id=flixverse;Password=flixverse;";
 
@@ -17,9 +22,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<TmdbProperties>(builder.Configuration.GetSection(TmdbProperties.prefix));
+builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection(JwtConfiguration.prefix));
+
+builder.Services.AddScoped<JwtService>();
+
 
 // Security
-builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtConfiguration.prefix)),
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true
+    };
+});
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -28,10 +47,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    IdentityModelEventSource.ShowPII = true;
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthorization();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
