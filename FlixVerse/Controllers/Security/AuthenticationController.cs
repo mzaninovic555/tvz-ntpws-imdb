@@ -10,7 +10,7 @@ namespace FlixVerse.Controllers.Security;
 public class AuthenticationController : ControllerBase
 {
     private readonly JwtService _jwtService;
-    private UserRepository _userRepository;
+    private readonly UserRepository _userRepository;
 
     public AuthenticationController(JwtService jwtService, UserRepository userRepository)
     {
@@ -22,11 +22,15 @@ public class AuthenticationController : ControllerBase
     public IActionResult Register(UserRequest request)
     {
         bool existsUsername = _userRepository.GetByCondition(User => User.Username == request.Username).Any();
-        bool existsEmail = _userRepository.GetByCondition(User => User.Email == request.Email).Any();
-
-        if (existsEmail || existsUsername)
+        if (existsUsername)
         {
-            return Conflict();
+            return Conflict("Username is already in use");
+        }
+
+        bool existsEmail = _userRepository.GetByCondition(User => User.Email == request.Email).Any();
+        if (existsEmail)
+        {
+            return Conflict("E-mail is already in use.");
         }
 
         string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -39,7 +43,6 @@ public class AuthenticationController : ControllerBase
     public IActionResult Login(UserRequest request)
     {
         User user = _userRepository.GetByCondition(User => User.Username == request.Username).FirstOrDefault();
-
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHashed))
         {
             return BadRequest("Login details don't match.");
