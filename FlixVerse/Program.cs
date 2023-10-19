@@ -1,5 +1,6 @@
 using System.Text;
 using FlixVerse.Configuration;
+using FlixVerse.Data;
 using FlixVerse.Services.Database;
 using FlixVerse.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -25,6 +26,7 @@ builder.Services.Configure<TmdbProperties>(builder.Configuration.GetSection(Tmdb
 builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection(JwtConfiguration.prefix));
 
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<UserRepository>();
 
 
 // Security

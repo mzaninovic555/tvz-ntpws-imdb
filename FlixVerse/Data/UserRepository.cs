@@ -1,6 +1,14 @@
-﻿namespace FlixVerse.Data;
+﻿using FlixVerse.Data.Base;
+using FlixVerse.Models;
+using FlixVerse.Services.Database;
 
-public class UserRepository
+namespace FlixVerse.Data;
+
+public class UserRepository : BaseRepository<User>
 {
-    
+    public UserRepository(FlixverseDbContext flixverseDbContext) : base(flixverseDbContext)
+    {
+    }
+
+
 }

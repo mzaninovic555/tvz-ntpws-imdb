@@ -21,9 +21,10 @@ public class User
     [EmailAddress]
     public string Email { get; set; }
 
-    public User(string username, string passwordHashed)
+    public User(string username, string passwordHashed, string email)
     {
         Username = username;
         PasswordHashed = passwordHashed;
+        Email = email;
     }
 }
