@@ -19,9 +19,10 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['dist', 'target', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', 'target', '.eslintrc.cjs', 'vite.config.ts'],
   plugins: ['react-refresh'],
   rules: {
+    'react/react-in-jsx-scope': 'off',
     'max-len': ['error', {'code': 150}],
     'linebreak-style': 'off',
     'comma-dangle': 'off',
