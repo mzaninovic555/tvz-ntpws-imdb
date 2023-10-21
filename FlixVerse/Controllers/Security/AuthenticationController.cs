@@ -1,6 +1,7 @@
 ﻿using BCrypt.Net;
 using FlixVerse.Data;
 using FlixVerse.Models;
+using FlixVerse.Models.User;
 using FlixVerse.Services.Security;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("register")]
-    public IActionResult Register(UserRequest request)
+    public IActionResult Register(RegisterRequest request)
     {
         bool existsUsername = _userRepository.GetByCondition(User => User.Username == request.Username).Any();
         if (existsUsername)
@@ -40,9 +41,9 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("login")]
-    public IActionResult Login(UserRequest request)
+    public IActionResult Login(LoginRequest request)
     {
-        User user = _userRepository.GetByCondition(User => User.Username == request.Username).FirstOrDefault();
+        User user = _userRepository.GetByCondition(User => User.Username == request.UsernameOrEmail).FirstOrDefault();
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHashed))
         {
             return BadRequest("Login details don't match.");

@@ -1,7 +1,8 @@
 ﻿using FlixVerse.Models;
+using FlixVerse.Models.User;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlixVerse.Services.Database;
+namespace FlixVerse.Data.Context;
 
 public class FlixverseDbContext : DbContext
 {

@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FlixVerse.Models;
+namespace FlixVerse.Models.User;
 
-public class UserRequest
+public class RegisterRequest
 {
+    [Required]
     public string Username { get; set; }
+    [Required]
     public string Password { get; set; }
-    [EmailAddress]
+    [Required]
     public string Email { get; set; }
+
 }

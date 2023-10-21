@@ -1,7 +1,7 @@
 using System.Text;
 using FlixVerse.Configuration;
 using FlixVerse.Data;
-using FlixVerse.Services.Database;
+using FlixVerse.Data.Context;
 using FlixVerse.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
