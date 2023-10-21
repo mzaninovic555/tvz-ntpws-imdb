@@ -1,10 +1,11 @@
-import {useAuth} from '../common/authentication/AuthWrapper.tsx';
+
 import {Navigate, Outlet} from 'react-router-dom';
+import useAuth from '../common/context/AuthContext.ts';
 
 export const ProtectedRoute = () => {
-  const {token} = useAuth();
+  const {authInfo} = useAuth();
 
-  if (!token) {
+  if (!authInfo.authenticated) {
     return <Navigate to={'/login'} />;
   }
 

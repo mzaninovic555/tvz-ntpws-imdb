@@ -2,10 +2,10 @@ import {useNavigate} from 'react-router-dom';
 import {Menubar} from 'primereact/menubar';
 import {MenuItem} from 'primereact/menuitem';
 import logo from '../assets/logo-navbar.png';
-import {useAuth} from '../common/authentication/AuthWrapper.tsx';
 import {Menu} from 'primereact/menu';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
+import useAuth from '../common/context/AuthContext.ts';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Navbar = () => {
   ];
 
   const logOut = () => {
-    auth.setToken(null);
+    auth.setToken(undefined);
   };
 
   const userMenuItems: MenuItem[] = [
@@ -53,10 +53,10 @@ const Navbar = () => {
 
   const authDiv = (
     <>
-      {auth.isAuthenticated && <>
+      {auth.authInfo.authenticated && <>
         <Menu model={userMenuItems} className={'p-0'} />
       </>}
-      {!auth.isAuthenticated && location.pathname != '/login' && location.pathname != '/register' &&
+      {!auth.authInfo.authenticated && location.pathname != '/login' && location.pathname != '/register' &&
         <>
           <Button label={'Sign in'} className='p-button-text p-0 mr-1 min-w-max' icon='pi pi-sign-in'
             onClick={() => navigate('login')} />

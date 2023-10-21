@@ -1,9 +1,9 @@
 import {Route, Routes} from 'react-router-dom';
 import {ReactElement} from 'react';
-import {useAuth} from '../common/authentication/AuthWrapper.tsx';
+import useAuth from '../common/context/AuthContext.ts';
 
 const RoutesConfig = () => {
-  const {token} = useAuth();
+  const {authInfo} = useAuth();
   const publicRoutes: ReactElement[] = [
     <Route path='/home' element={<div>HAHA</div>} key={'home'}/>,
   ];
@@ -22,7 +22,7 @@ const RoutesConfig = () => {
     <Routes>
       {[
         ...publicRoutes,
-        ...(!token ? onlyNonAuthenticatedRoutes : []),
+        ...(!authInfo.authenticated ? onlyNonAuthenticatedRoutes : []),
         ...authenticatedRoutes
       ]}
 
