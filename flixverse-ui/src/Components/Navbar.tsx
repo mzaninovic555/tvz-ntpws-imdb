@@ -54,33 +54,29 @@ const Navbar = () => {
   const authDiv = (
     <>
       {auth.isAuthenticated && <>
-        <Menu model={userMenuItems} />
+        <Menu model={userMenuItems} className={'p-0'} />
       </>}
       {!auth.isAuthenticated && location.pathname != '/login' && location.pathname != '/register' &&
         <>
-          <Button label={'Sign in'} className='p-button-text' icon='pi pi-sign-in'
+          <Button label={'Sign in'} className='p-button-text p-0 mr-1 min-w-max' icon='pi pi-sign-in'
             onClick={() => navigate('login')} />
         </>
       }
     </>
   );
 
-  const start = (
-    <div className='mr-2 cursor-pointer' onClick={() => navigate('/')}>
-      <img alt='logo' src={logo} height={60}></img>
-    </div>
-  );
+  const start = <img alt='logo' src={logo} height={40} className='mr-1 cursor-pointer'></img>;
 
   const end = (
-    <div className={'flex justify-content-center'}>
-      <InputText placeholder='Search' type='text' className='w-full' />
+    <div className={'flex'}>
+      <InputText placeholder='Search' type='text' className='w-full ml-2 mr-2' />
       {authDiv}
     </div>
   );
 
   return (
-    <nav className={'card'}>
-      <Menubar model={menuItems} start={start} end={end}/>
+    <nav className={'card border-noround-top mt-0'}>
+      <Menubar model={menuItems} start={start} end={end} />
     </nav>
   );
 };
