@@ -9,8 +9,19 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 const string dbString = "Server=localhost;Port=5432;Database=flixverse;User Id=flixverse;Password=flixverse;";
+var corsPolicy = "_CorsPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsPolicy, policy =>
+    {
+        policy.WithOrigins(builder.Configuration.GetSection("Cors:URLs").Value!)
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 // Database
 builder.Services.AddDbContext<FlixverseDbContext>(options => options.UseNpgsql(dbString));
@@ -55,10 +66,20 @@ if (app.Environment.IsDevelopment())
     IdentityModelEventSource.ShowPII = true;
 }
 
+app.UseCors(corsPolicy);
+
 app.UseHttpsRedirection();
+
+// app.Use((ctx, next) =>
+// {
+//     ctx.Response.Headers["Access-Control-Allow-Origin"] = "http://localhost:5138";
+//
+//     return next();
+// });
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 

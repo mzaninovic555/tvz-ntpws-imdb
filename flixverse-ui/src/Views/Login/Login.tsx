@@ -1,17 +1,35 @@
 import AuthRedirect from '../../common/authentication/AuthRedirect.tsx';
 import {Card} from 'primereact/card';
 import FormInputText from '../../Components/FormInputText.tsx';
-import {FormEvent, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import {Button} from 'primereact/button';
 import {Link} from 'react-router-dom';
+import * as yup from 'yup';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {registerApi} from '../Register/RegisterService.ts';
+
+
+type LoginSubmitForm = {
+  usernameOrEmail: string,
+  password: string
+}
+
+const schema = yup.object().shape({
+  usernameOrEmail: yup.string().required(),
+  password: yup.string().required()
+});
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const {register, handleSubmit, formState: {errors}} =
+      useForm<LoginSubmitForm>({
+        resolver: yupResolver(schema)
+      });
+
 
   const [loadingLogin, setLoadingLogin] = useState(false);
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+
+  const submitForm = (data: LoginSubmitForm) => {
   };
 
   const loginGoogle = () => {
@@ -25,13 +43,11 @@ const Login = () => {
   return (
     <AuthRedirect sendToHome={true}>
       <Card className='max-w-30rem m-auto mt-4' title='Login'>
-        <form className={'flex flex-column'} onSubmit={handleSubmit}>
-          <FormInputText name={'username'} type={'text'} placeholder={'Username'} label={'Username'}
-            errorMessage='Username should be between 3 and 16 characters with no special characters'
-            onChange={setUsername}/>
-          <FormInputText name={'password'} type={'password'} placeholder={'Password'} label={'Password'}
-            errorMessage='Password should be at least 8 characters'
-            onChange={setPassword}/>
+        <form className={'flex flex-column'} onSubmit={handleSubmit(submitForm)}>
+          <FormInputText name='usernameOrEmail' type={'text'} placeholder={'username or e-mail'} label={'username or e-mail'}
+            required register={register} errors={errors.usernameOrEmail} />
+          <FormInputText name='password' type={'password'} placeholder={'password'} label={'password'}
+            required register={register} />
           <div className='flex flex-column align-self-center align-items-center'>
             <Button icon="pi pi-check" type='submit' label='Login' loading={loadingLogin} className='mb-2 w-12rem' />
             <Button icon="pi pi-google" label="Google" type="button" onClick={loginGoogle} className='mb-2 w-12rem text-color border-200'

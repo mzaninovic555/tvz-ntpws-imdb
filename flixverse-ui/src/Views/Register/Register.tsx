@@ -1,12 +1,14 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import AuthRedirect from '../../common/authentication/AuthRedirect.tsx';
 import {Card} from 'primereact/card';
 import FormInputText from '../../Components/FormInputText.tsx';
 import {Button} from 'primereact/button';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import * as yup from 'yup';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {registerApi} from './RegisterService.ts';
+import {AxiosError} from 'axios';
 
 type RegisterSubmitForm = {
   username: string,
@@ -23,35 +25,48 @@ const schema = yup.object().shape({
 });
 
 const Register = () => {
-  const {register, handleSubmit, formState: {errors}} = useForm<RegisterSubmitForm>({
-    resolver: yupResolver(schema)
-  });
-
+  const {register, handleSubmit, formState: {errors}} =
+      useForm<RegisterSubmitForm>({
+        resolver: yupResolver(schema)
+      });
+  const navigate = useNavigate();
   const [loadingLogin, setLoadingLogin] = useState(false);
 
   const submitForm = (data: RegisterSubmitForm) => {
+    setLoadingLogin(true);
+    const response = registerApi(data.username, data.password, data.email)
+      .catch(handleRequestFailure);
+    setLoadingLogin(false);
 
+    if (!response) {
+      return;
+    }
+    navigate('/login');
   };
 
-  const loginGoogle = () => {
+  function handleRequestFailure(error: AxiosError) {
+    console.log(error?.response?.statusText);
+  }
 
+  const loginGoogle = () => {
+    // TODO kad sanity bude
   };
 
   const loginGithub = () => {
-
+    // TODO kad sanity bude
   };
 
   return (
     <AuthRedirect sendToHome={true}>
       <Card className='max-w-30rem m-auto mt-4' title='Register'>
         <form className={'flex flex-column'} onSubmit={handleSubmit(submitForm)}>
-          <FormInputText name='username' type={'text'} placeholder={'Username'} label={'Username'}
+          <FormInputText name='username' type={'text'} placeholder={'username'} label={'username'}
             required register={register} errors={errors.username} />
-          <FormInputText name='email' type={'email'} placeholder={'E-mail'} label={'E-mail'}
+          <FormInputText name='email' type={'email'} placeholder={'e-mail'} label={'e-mail'}
             required register={register} errors={errors.email} />
-          <FormInputText name='password' type={'password'} placeholder={'Password'} label={'Password'}
+          <FormInputText name='password' type={'password'} placeholder={'password'} label={'password'}
             required register={register} errors={errors.password} />
-          <FormInputText name='confirmPassword' type={'password'} placeholder={'Confirm Password'} label={'Confirm Password'}
+          <FormInputText name='confirmPassword' type={'password'} placeholder={'confirm password'} label={'confirm password'}
             required register={register} errors={errors.confirmPassword} />
           <div className='flex flex-column align-self-center align-items-center'>
             <Button icon="pi pi-check" type='submit' label='Login' loading={loadingLogin} className='mb-2 w-12rem' />
