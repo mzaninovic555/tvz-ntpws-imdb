@@ -8,7 +8,9 @@ const RoutesConfig = () => {
     <Route path='/home' element={<div>HAHA</div>} key={'home'}/>,
   ];
 
+  // TODO elements
   const onlyNonAuthenticatedRoutes: ReactElement[] = [
+    <Route path='/' key={'home'} />,
     <Route path='/login' key={'login'} />
   ];
 
