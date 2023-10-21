@@ -2,7 +2,7 @@ import {useNavigate} from 'react-router-dom';
 import {Menubar} from 'primereact/menubar';
 import {MenuItem} from 'primereact/menuitem';
 import logo from '../assets/logo-navbar.png';
-import {useAuth} from '../provider/AuthWrapper.tsx';
+import {useAuth} from '../common/authentication/AuthWrapper.tsx';
 import {Menu} from 'primereact/menu';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';

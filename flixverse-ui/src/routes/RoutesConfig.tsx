@@ -1,6 +1,6 @@
 import {Route, Routes} from 'react-router-dom';
 import {ReactElement} from 'react';
-import {useAuth} from '../provider/AuthWrapper.tsx';
+import {useAuth} from '../common/authentication/AuthWrapper.tsx';
 
 const RoutesConfig = () => {
   const {token} = useAuth();
