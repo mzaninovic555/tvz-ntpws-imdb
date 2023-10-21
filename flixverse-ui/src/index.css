@@ -28,3 +28,13 @@ body {
   margin-right: auto;
   margin-left: auto
 }
+
+.auth-link {
+  color: #7c3aed;
+  text-decoration: none;
+  transition: all 0.09s linear;
+}
+
+.auth-link:hover {
+  opacity: 0.6;
+}

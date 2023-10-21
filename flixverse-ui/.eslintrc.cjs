@@ -22,6 +22,11 @@ module.exports = {
   ignorePatterns: ['dist', 'target', '.eslintrc.cjs', 'vite.config.ts'],
   plugins: ['react-refresh'],
   rules: {
+    '@typescript-eslint/no-misused-promises': [2, {
+      "checksVoidReturn": {
+        "attributes": false
+      }
+    }],
     'react/react-in-jsx-scope': 'off',
     'max-len': ['error', {'code': 150}],
     'linebreak-style': 'off',
