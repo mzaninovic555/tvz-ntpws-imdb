@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType>({
   }
 });
 
-const AuthProvider = (props: JSXChildrenProps) => {
+const AuthWrapper = (props: JSXChildrenProps) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
@@ -44,4 +44,4 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-export default AuthProvider;
+export default AuthWrapper;

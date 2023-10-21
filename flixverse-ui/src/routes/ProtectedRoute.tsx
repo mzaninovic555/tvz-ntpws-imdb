@@ -1,4 +1,4 @@
-import {useAuth} from '../provider/AuthProvider.tsx';
+import {useAuth} from '../provider/AuthWrapper.tsx';
 import {Navigate, Outlet} from 'react-router-dom';
 
 export const ProtectedRoute = () => {
