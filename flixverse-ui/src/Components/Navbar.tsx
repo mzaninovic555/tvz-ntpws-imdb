@@ -66,7 +66,7 @@ const Navbar = () => {
   );
 
   const start = (
-    <div className='mr-4 cursor-pointer' onClick={() => navigate('/')}>
+    <div className='mr-2 cursor-pointer' onClick={() => navigate('/')}>
       <img alt='logo' src={logo} height={60}></img>
     </div>
   );
