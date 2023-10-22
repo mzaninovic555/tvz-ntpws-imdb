@@ -43,7 +43,8 @@ public class AuthenticationController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
-        User user = _userRepository.GetByCondition(User => User.Username == request.UsernameOrEmail).FirstOrDefault();
+        User user = _userRepository.GetByCondition(User =>
+            User.Username == request.UsernameOrEmail || User.Email == request.UsernameOrEmail).FirstOrDefault();
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHashed))
         {
             return BadRequest(new LoginResponse { Message = "Login details don't match." });
