@@ -30,7 +30,7 @@ const AuthWrapper = (props: JSXChildrenProps) => {
   useEffect(() => setAuthInfo(initAuthenticationInfo()), [token]);
 
   const setTokenIntercept = (token?: string) => {
-    const extracted = extractJwtData(token!);
+    const extracted = extractJwtData(token);
     if (!token) {
       cookies.remove('flixverse-jwt-token');
       api.defaults.headers.common['Authorizationj'] = undefined;
