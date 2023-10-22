@@ -1,6 +1,6 @@
 ﻿using FlixVerse.Data.Base;
-using FlixVerse.Models;
-using FlixVerse.Services.Database;
+using FlixVerse.Data.Context;
+using FlixVerse.Models.User;
 
 namespace FlixVerse.Data;
 

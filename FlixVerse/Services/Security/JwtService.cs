@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using FlixVerse.Configuration;
-using FlixVerse.Models;
+using FlixVerse.Models.User;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
