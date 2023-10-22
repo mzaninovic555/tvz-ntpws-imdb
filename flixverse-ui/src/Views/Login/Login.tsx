@@ -1,7 +1,7 @@
 import AuthRedirect from '../../common/authentication/AuthRedirect.tsx';
 import {Card} from 'primereact/card';
 import FormInputText from '../../Components/FormInputText.tsx';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Button} from 'primereact/button';
 import {Link} from 'react-router-dom';
 import * as yup from 'yup';
@@ -13,6 +13,7 @@ import useAuth from '../../common/context/AuthContext.ts';
 import {Messages} from 'primereact/messages';
 import useToast from '../../common/context/ToastContext.ts';
 import {createNewToast} from '../../common/messages/toastUtils.ts';
+import {createNewMessage} from '../../common/messages/messageUtils.ts';
 
 
 type LoginSubmitForm = {
@@ -35,6 +36,17 @@ const Login = () => {
 
   const messages = useRef<Messages>(null);
   const [loadingLogin, setLoadingLogin] = useState(false);
+  const param = window.location.search.substring(1);
+
+  useEffect(() => {
+    if (param) {
+      messages.current?.clear();
+      switch (param) {
+        case 'success':
+          messages.current?.show(createNewMessage('Registered successfully', 'success', true));
+      }
+    }
+  }, []);
 
   const submitForm = async (data: LoginSubmitForm) => {
     messages.current?.clear();

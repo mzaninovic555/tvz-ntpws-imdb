@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import AuthRedirect from '../../common/authentication/AuthRedirect.tsx';
 import {Card} from 'primereact/card';
 import FormInputText from '../../Components/FormInputText.tsx';
@@ -7,8 +7,9 @@ import {Link, useNavigate} from 'react-router-dom';
 import * as yup from 'yup';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {registerApi} from './RegisterService.ts';
+import {registerApi, RegisterResponse} from './RegisterService.ts';
 import {AxiosError} from 'axios';
+import {Messages} from 'primereact/messages';
 
 type RegisterSubmitForm = {
   username: string,
@@ -25,6 +26,7 @@ const schema = yup.object().shape({
 });
 
 const Register = () => {
+  const messages = useRef<Messages>(null);
   const {register, handleSubmit, formState: {errors}} =
       useForm<RegisterSubmitForm>({
         resolver: yupResolver(schema)
@@ -41,11 +43,18 @@ const Register = () => {
     if (!response) {
       return;
     }
-    navigate('/login');
+
+    navigate('/login?success');
   };
 
-  function handleRequestFailure(error: AxiosError) {
-    console.log(error?.response?.statusText);
+  function handleRequestFailure(e: AxiosError<RegisterResponse>) {
+    const msg = e.response?.data?.message;
+
+    messages.current?.show({
+      detail: msg ?? e.message,
+      severity: 'error',
+      sticky: true,
+    });
   }
 
   const loginGoogle = () => {
@@ -59,6 +68,7 @@ const Register = () => {
   return (
     <AuthRedirect sendToHome={true}>
       <Card className='max-w-30rem m-auto mt-4' title='Register'>
+        <Messages ref={messages} />
         <form className={'flex flex-column'} onSubmit={handleSubmit(submitForm)}>
           <FormInputText name='username' type={'text'} placeholder={'username'} label={'username'}
             required register={register} errors={errors.username} />
@@ -68,7 +78,7 @@ const Register = () => {
             required register={register} errors={errors.password} />
           <FormInputText name='confirmPassword' type={'password'} placeholder={'confirm password'} label={'confirm password'}
             required register={register} errors={errors.confirmPassword} />
-          <div className='flex flex-column align-self-center align-items-center'>
+          <div className='flex flex-column align-self-center align-items-center mt-2'>
             <Button icon="pi pi-check" type='submit' label='Register' loading={loadingLogin} className='mb-2 w-12rem' />
             <Button icon="pi pi-google" label="Google" type="button" onClick={loginGoogle} className='mb-2 w-12rem text-color border-200'
               style={{background: 'rgba(255,255,255,0.79)'}}/>
