@@ -11,6 +11,8 @@ import {loginApi, LoginResponse} from './LoginService.ts';
 import {AxiosError} from 'axios';
 import useAuth from '../../common/context/AuthContext.ts';
 import {Messages} from 'primereact/messages';
+import useToast from '../../common/context/ToastContext.ts';
+import {createNewToast} from '../../common/messages/toastUtils.ts';
 
 
 type LoginSubmitForm = {
@@ -25,6 +27,7 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const auth = useAuth();
+  const {toast} = useToast();
   const {register, handleSubmit, formState: {errors}} =
       useForm<LoginSubmitForm>({
         resolver: yupResolver(schema)
@@ -46,6 +49,7 @@ const Login = () => {
 
     if (response?.token) {
       auth.setToken(response.token);
+      toast?.current?.show(createNewToast('Logged in successfully', 'success'));
     }
   };
 
@@ -76,7 +80,7 @@ const Login = () => {
             required register={register} errors={errors.usernameOrEmail} />
           <FormInputText name='password' type={'password'} placeholder={'password'} label={'password'}
             required register={register} />
-          <div className='flex flex-column align-self-center align-items-center'>
+          <div className='flex flex-column align-self-center align-items-center mt-2'>
             <Button icon="pi pi-check" type='submit' label='Login' loading={loadingLogin} className='mb-2 w-12rem' />
             <Button icon="pi pi-google" label="Google" type="button" onClick={loginGoogle} className='mb-2 w-12rem text-color border-200'
               style={{background: 'rgba(255,255,255,0.79)'}}/>

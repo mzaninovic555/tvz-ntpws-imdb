@@ -6,10 +6,13 @@ import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import useAuth from '../common/context/AuthContext.ts';
 import './navbar.css';
+import useToast from '../common/context/ToastContext.ts';
+import {createNewToast} from '../common/messages/toastUtils.ts';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const auth = useAuth();
+  const {toast} = useToast();
 
   const menuItems: MenuItem[] = [
     {
@@ -36,6 +39,7 @@ const Navbar = () => {
 
   const logOut = () => {
     auth.setToken(undefined);
+    toast?.current?.show(createNewToast('Logged out successfully', 'success'));
   };
 
   const userMenuItems: MenuItem[] = [

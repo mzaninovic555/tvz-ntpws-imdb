@@ -19,9 +19,9 @@ const FormInputText = (props: FormInputTextProps) => {
       <InputText className='mb-2' type={props.type} placeholder={props.placeholder}
         required={props.required} disabled={props.disabled} {...props.register?.(props.name)} />
       {props?.errors &&
-          <small id={props.name + '-error'} className='p-error block mb-3 align-self-start font-semibold'>
-            {props?.errors?.message}
-          </small>}
+        <small id={props.name + '-error'} className='p-error block mb-3 align-self-start font-semibold'>
+          {props?.errors?.message}
+        </small>}
     </div>
   );
 };

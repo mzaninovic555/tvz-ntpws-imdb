@@ -3,15 +3,18 @@ import {BrowserRouter} from 'react-router-dom';
 import RoutesConfig from './routes/RoutesConfig.tsx';
 import AuthWrapper from './common/authentication/AuthWrapper.tsx';
 import Navbar from './Components/Navbar.tsx';
+import ToastWrapper from './Components/ToastWrapper.tsx';
 
 function App() {
   return (
-    <AuthWrapper>
-      <BrowserRouter>
-        <Navbar />
-        <RoutesConfig />
-      </BrowserRouter>
-    </AuthWrapper>
+    <ToastWrapper>
+      <AuthWrapper>
+        <BrowserRouter>
+          <Navbar />
+          <RoutesConfig />
+        </BrowserRouter>
+      </AuthWrapper>
+    </ToastWrapper>
   );
 }
 
