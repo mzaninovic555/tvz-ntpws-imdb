@@ -1,15 +1,15 @@
 import {useEffect, useState} from 'react';
 import {JSXChildrenProps} from '../../@types';
 import {AuthContext} from '../context/AuthContext.ts';
-import {useCookies} from 'react-cookie';
 import api from '../api/api.ts';
 import {AuthenticationInfo} from './AuthenticationInfo.ts';
 import {extractJwtData, getAuthenticationInfoFromJwt} from './AuthUtils.ts';
+import Cookies from 'universal-cookie';
 
 const AuthWrapper = (props: JSXChildrenProps) => {
-  const [cookies, setCookie, removeCookie] = useCookies(['flixverse-jwt-token']);
+  const cookies = new Cookies();
   const [token, setToken] = useState<string | undefined | null>(() => {
-    const token = cookies['flixverse-jwt-token'] as string | null;
+    const token = cookies.get('flixverse-jwt-token') as string | null;
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
@@ -30,11 +30,12 @@ const AuthWrapper = (props: JSXChildrenProps) => {
   useEffect(() => setAuthInfo(initAuthenticationInfo()), [token]);
 
   const setTokenIntercept = (token?: string) => {
+    const extracted = extractJwtData(token!);
     if (!token) {
-      removeCookie('flixverse-jwt-token');
+      cookies.remove('flixverse-jwt-token');
       api.defaults.headers.common['Authorizationj'] = undefined;
     } else {
-      setCookie('flixverse-jwt-token', token, {expires: new Date(new Date().getDate() + 1)});
+      cookies.set('flixverse-jwt-token', token, {expires: new Date(extracted!.exp * 1000)});
       api.defaults.headers.common['Authorizationj'] = `Bearer ${token}`;
     }
     setToken(token);
