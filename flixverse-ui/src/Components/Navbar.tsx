@@ -5,6 +5,7 @@ import logo from '../assets/logo-navbar.png';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import useAuth from '../common/context/AuthContext.ts';
+import './navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const Navbar = () => {
   const start = <img alt='logo' src={logo} height={40} className='mr-1 cursor-pointer'></img>;
 
   const end = (
-    <div className={'flex'}>
+    <div className={'flex min-w-min'}>
       <InputText placeholder='Search' type='text' className='w-full ml-2 mr-2' />
       {authDiv}
     </div>

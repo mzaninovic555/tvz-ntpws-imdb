@@ -1,0 +1,6 @@
+.p-menubar-root-list {
+  right: 0;
+  left: initial;
+  margin-right: auto !important;
+  min-width: fit-content;
+}
