@@ -67,7 +67,7 @@ const Navbar = () => {
       </>}
       {!auth.authInfo.authenticated && location.pathname != '/login' && location.pathname != '/register' &&
         <>
-          <Button label={'Sign in'} className='p-button-text p-0 mr-1 min-w-max' icon='pi pi-sign-in'
+          <Button label={'Sign in'} className='p-button-text p-0 ml-2 mr-2 min-w-max' icon='pi pi-sign-in'
             onClick={() => navigate('login')} />
         </>
       }
