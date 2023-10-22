@@ -2,7 +2,6 @@ import {useNavigate} from 'react-router-dom';
 import {Menubar} from 'primereact/menubar';
 import {MenuItem} from 'primereact/menuitem';
 import logo from '../assets/logo-navbar.png';
-import {Menu} from 'primereact/menu';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import useAuth from '../common/context/AuthContext.ts';
@@ -40,21 +39,26 @@ const Navbar = () => {
 
   const userMenuItems: MenuItem[] = [
     {
-      label: 'My page',
+      label: auth.authInfo.info?.name ?? 'User',
       icon: 'pi pi-user',
-      url: '/'
-    },
-    {
-      label: 'Logout',
-      icon: 'pi pi-sign-out',
-      command: logOut
+      items: [
+        {
+          label: 'My page',
+          icon: 'pi pi-user',
+          url: '/'
+        },
+        {
+          label: 'Logout',
+          icon: 'pi pi-sign-out',
+          command: logOut
+        }]
     }
   ];
 
   const authDiv = (
     <>
       {auth.authInfo.authenticated && <>
-        <Menu model={userMenuItems} className={'p-0'} />
+        <Menubar model={userMenuItems} className={'p-0'} />
       </>}
       {!auth.authInfo.authenticated && location.pathname != '/login' && location.pathname != '/register' &&
         <>
