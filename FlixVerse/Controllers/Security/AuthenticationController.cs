@@ -46,10 +46,14 @@ public class AuthenticationController : ControllerBase
         User user = _userRepository.GetByCondition(User => User.Username == request.UsernameOrEmail).FirstOrDefault();
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHashed))
         {
-            return BadRequest("Login details don't match.");
+            return BadRequest(new LoginResponse { Message = "Login details don't match." });
         }
 
         string jwtToken = _jwtService.GenerateJwtToken(user);
-        return Ok(jwtToken);
+        var response = new LoginResponse
+        {
+            Token = jwtToken
+        };
+        return Ok(response);
     }
 }

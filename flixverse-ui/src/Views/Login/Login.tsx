@@ -1,13 +1,16 @@
 import AuthRedirect from '../../common/authentication/AuthRedirect.tsx';
 import {Card} from 'primereact/card';
 import FormInputText from '../../Components/FormInputText.tsx';
-import {FormEvent, useEffect, useState} from 'react';
+import {useRef, useState} from 'react';
 import {Button} from 'primereact/button';
 import {Link} from 'react-router-dom';
 import * as yup from 'yup';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {registerApi} from '../Register/RegisterService.ts';
+import {loginApi, LoginResponse} from './LoginService.ts';
+import {AxiosError} from 'axios';
+import useAuth from '../../common/context/AuthContext.ts';
+import {Messages} from 'primereact/messages';
 
 
 type LoginSubmitForm = {
@@ -21,16 +24,40 @@ const schema = yup.object().shape({
 });
 
 const Login = () => {
+  const auth = useAuth();
   const {register, handleSubmit, formState: {errors}} =
       useForm<LoginSubmitForm>({
         resolver: yupResolver(schema)
       });
 
-
+  const messages = useRef<Messages>(null);
   const [loadingLogin, setLoadingLogin] = useState(false);
 
-  const submitForm = (data: LoginSubmitForm) => {
+  const submitForm = async (data: LoginSubmitForm) => {
+    messages.current?.clear();
+    setLoadingLogin(true);
+    const response = await loginApi(data.usernameOrEmail, data.password)
+      .catch(handleLoginFailure);
+    setLoadingLogin(false);
+
+    if (!response) {
+      return;
+    }
+
+    if (response?.token) {
+      auth.setToken(response.token);
+    }
   };
+
+  function handleLoginFailure(e: AxiosError<LoginResponse>) {
+    const msg = e.response?.data.message;
+
+    messages.current?.show({
+      detail: msg ?? e.message,
+      severity: 'error',
+      sticky: true,
+    });
+  }
 
   const loginGoogle = () => {
 
@@ -43,6 +70,7 @@ const Login = () => {
   return (
     <AuthRedirect sendToHome={true}>
       <Card className='max-w-30rem m-auto mt-4' title='Login'>
+        <Messages ref={messages} />
         <form className={'flex flex-column'} onSubmit={handleSubmit(submitForm)}>
           <FormInputText name='usernameOrEmail' type={'text'} placeholder={'username or e-mail'} label={'username or e-mail'}
             required register={register} errors={errors.usernameOrEmail} />

@@ -69,7 +69,7 @@ const Register = () => {
           <FormInputText name='confirmPassword' type={'password'} placeholder={'confirm password'} label={'confirm password'}
             required register={register} errors={errors.confirmPassword} />
           <div className='flex flex-column align-self-center align-items-center'>
-            <Button icon="pi pi-check" type='submit' label='Login' loading={loadingLogin} className='mb-2 w-12rem' />
+            <Button icon="pi pi-check" type='submit' label='Register' loading={loadingLogin} className='mb-2 w-12rem' />
             <Button icon="pi pi-google" label="Google" type="button" onClick={loginGoogle} className='mb-2 w-12rem text-color border-200'
               style={{background: 'rgba(255,255,255,0.79)'}}/>
             <Button icon="pi pi-github" label="Github" type="button" onClick={loginGithub} className='w-12rem mb-3'
