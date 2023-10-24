@@ -4,3 +4,31 @@
   margin-right: auto !important;
   min-width: fit-content;
 }
+
+.flixverse-menubar-start {
+  border-right: rgb(128, 128, 128) solid thin;
+}
+
+@media screen and (max-width: 1000px) {
+  .p-menubar {
+    flex-direction:  column;
+  }
+
+  .p-menubar > div {
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin-left: 0;
+    margin-bottom: 1rem;
+  }
+
+  .flixverse-menubar-start {
+    border-right: 0 solid #000; !important;
+    border-bottom: rgb(128, 128, 128) solid thin;
+  }
+
+  .flixverse-menubar-end {
+    display: flex;
+    flex-direction: column;
+  }
+}
