@@ -16,25 +16,21 @@ const Navbar = () => {
 
   const menuItems: MenuItem[] = [
     {
-      label: 'Placeholder 1',
+      label: 'Home',
       url: '/'
     },
     {
-      label: 'Placeholder 2',
-      url: '/'
+      label: 'Movies',
+      url: '/movies'
     },
     {
-      label: 'Placeholder 3',
-      url: '/'
+      label: 'TV Shows',
+      url: '/tv-shows'
     },
     {
-      label: 'Placeholder 1',
-      url: '/'
+      label: 'Actors',
+      url: '/actors'
     },
-    {
-      label: 'Placeholder 1',
-      url: '/'
-    }
   ];
 
   const logOut = () => {
@@ -67,14 +63,19 @@ const Navbar = () => {
       </>}
       {!auth.authInfo.authenticated && location.pathname != '/login' && location.pathname != '/register' &&
         <>
-          <Button label={'Sign in'} className='p-button-text p-0 ml-2 mr-2 min-w-max' icon='pi pi-sign-in'
+          <Button label={'Sign in'} className='p-button-text p-2 ml-2 mr-2 min-w-max' icon='pi pi-sign-in'
             onClick={() => navigate('login')} />
         </>
       }
     </>
   );
 
-  const start = <img alt='logo' src={logo} height={40} className='mr-1 cursor-pointer'></img>;
+  const start = (
+    <div className='flex align-items-center ml-2 pr-4 border-gray-300 border-right-1'>
+      <img alt='logo' src={logo} height={80} className='mr-3 my-0 cursor-pointer'></img>
+      <h1>Flixverse</h1>
+    </div>
+  );
 
   const end = (
     <div className={'flex min-w-min'}>
