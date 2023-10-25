@@ -71,8 +71,9 @@ const Navbar = () => {
   );
 
   const start = (
-    <div className='flex align-items-center ml-2 pr-4 border-gray-300 flixverse-menubar-start'>
-      <img alt='logo' src={logo} height={80} className='mr-3 my-0 cursor-pointer'></img>
+    // TODO: add navigate to home
+    <div className='flex align-items-center mx-2 pr-4 border-gray-300 flixverse-menubar-start cursor-pointer'>
+      <img alt='logo' src={logo} height={80} className='mr-3 my-0'></img>
       <h1>Flixverse</h1>
     </div>
   );

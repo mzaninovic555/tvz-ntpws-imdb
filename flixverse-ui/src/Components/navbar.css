@@ -1,8 +1,11 @@
 .p-menubar-root-list {
-  right: 0;
   left: initial;
-  margin-right: auto !important;
   min-width: fit-content;
+}
+
+.p-menubar-end {
+  margin-left: 1rem;
+  flex-basis: 70%;
 }
 
 .flixverse-menubar-start {
