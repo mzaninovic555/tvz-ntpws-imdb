@@ -72,7 +72,8 @@ const Navbar = () => {
 
   const start = (
     // TODO: add navigate to home
-    <div className='flex align-items-center mx-2 pr-4 border-gray-300 flixverse-menubar-start cursor-pointer'>
+    <div className='flex align-items-center mx-2 pr-4 border-gray-300 flixverse-menubar-start cursor-pointer'
+      onClick={() => navigate('/')}>
       <img alt='logo' src={logo} height={80} className='mr-3 my-0'></img>
       <h1>Flixverse</h1>
     </div>
@@ -86,8 +87,10 @@ const Navbar = () => {
   );
 
   return (
-    <nav className={'card border-noround-top mt-0'}>
-      <Menubar model={menuItems} start={start} end={end} />
+    <nav className={'border-noround-top mt-0'}>
+      <div className='container'>
+        <Menubar model={menuItems} start={start} end={end} className='border-none' />
+      </div>
     </nav>
   );
 };
