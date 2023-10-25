@@ -1,5 +1,4 @@
-﻿using FlixVerse.Models;
-using FlixVerse.Models.User;
+﻿using FlixVerse.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlixVerse.Data.Context;

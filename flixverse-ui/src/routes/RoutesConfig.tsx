@@ -3,6 +3,7 @@ import {ReactElement} from 'react';
 import useAuth from '../common/context/AuthContext.ts';
 import Login from '../Views/Login/Login.tsx';
 import Register from '../Views/Register/Register.tsx';
+import Home from '../Views/Home/Home.tsx';
 
 const RoutesConfig = () => {
   const {authInfo} = useAuth();
@@ -10,7 +11,7 @@ const RoutesConfig = () => {
   ];
 
   const onlyNonAuthenticatedRoutes: ReactElement[] = [
-    <Route path='/' key='home' />,
+    <Route path='/' key='home' element={<Home />} />,
     <Route path='/login' element={<Login />} key='login' />,
     <Route path='/register' element={<Register />} key='register' />,
   ];

@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace FlixVerse.Configuration;
+﻿namespace FlixVerse.Configuration;
 
 public class TmdbProperties
 {

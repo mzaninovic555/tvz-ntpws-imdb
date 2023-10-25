@@ -1,6 +1,4 @@
-﻿using BCrypt.Net;
-using FlixVerse.Data;
-using FlixVerse.Models;
+﻿using FlixVerse.Data;
 using FlixVerse.Models.Common;
 using FlixVerse.Models.User;
 using FlixVerse.Services.Security;
