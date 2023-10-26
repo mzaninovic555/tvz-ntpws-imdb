@@ -1,15 +1,15 @@
 import {useEffect, useState} from 'react';
 import {GenericItemCarouselResponse} from './GenericItemCarouselResponse.ts';
-import {Carousel} from 'primereact/carousel';
+import {Carousel, CarouselResponsiveOption} from 'primereact/carousel';
 import {getPopularActors, getPopularMovies, getPopularShows} from './HomeService.ts';
 import {useNavigate} from 'react-router-dom';
 import './home.css';
 
 
 const Home = () => {
-  const [popularMovies, setPopularMovies] = useState<GenericItemCarouselResponse[]>([]);
-  const [popularShows, setpopularShows] = useState<GenericItemCarouselResponse[]>([]);
-  const [popularActors, setpopularActors] = useState<GenericItemCarouselResponse[]>([]);
+  const [popularMovies, setPopularMovies] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
+  const [popularShows, setpopularShows] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
+  const [popularActors, setpopularActors] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
 
 
   const navigate = useNavigate();
@@ -49,11 +49,29 @@ const Home = () => {
     navigate('/');
   };
 
+  const carouselResponsiveOptions: CarouselResponsiveOption[] = [
+    {
+      numVisible: 6,
+      breakpoint: '10000px',
+      numScroll: 1
+    },
+    {
+      numVisible: 3,
+      breakpoint: '1500px',
+      numScroll: 1
+    },
+    {
+      numVisible: 2,
+      breakpoint: '1100px',
+      numScroll: 1
+    }
+  ];
+
   const carouselItemTemplate = (item: GenericItemCarouselResponse) => {
     return (
-      <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center'
+      <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3'
         onClick={() => navigateToMovie()}>
-        <div className="">
+        <div>
           <img src={`${item.poster}`} alt={item.name} className="carousel-image" />
         </div>
         <div className='h-3rem'>
@@ -67,15 +85,21 @@ const Home = () => {
     <main className='container mt-5 text-left'>
       <section>
         <h2 className='text-primary'>Popular movies</h2>
-        {popularMovies && <Carousel value={popularMovies} itemTemplate={carouselItemTemplate} numVisible={6} numScroll={3}/>}
+        {!popularMovies && <div>mashallah he is not loaded</div>}
+        {popularMovies && <Carousel value={popularMovies} itemTemplate={carouselItemTemplate}
+          responsiveOptions={carouselResponsiveOptions} circular />}
       </section>
       <section>
         <h2 className='text-primary'>Popular shows</h2>
-        {popularMovies && <Carousel value={popularShows} itemTemplate={carouselItemTemplate} numVisible={6} numScroll={3}/>}
+        {!popularShows && <div>mashallah he is not loaded</div>}
+        {popularShows && <Carousel value={popularShows} itemTemplate={carouselItemTemplate}
+          responsiveOptions={carouselResponsiveOptions} circular />}
       </section>
       <section>
         <h2 className='text-primary'>Popular actors</h2>
-        {popularMovies && <Carousel value={popularActors} itemTemplate={carouselItemTemplate} numVisible={6} numScroll={3}/>}
+        {!popularActors && <div>mashallah he is not loaded</div>}
+        {popularActors && <Carousel value={popularActors} itemTemplate={carouselItemTemplate}
+          responsiveOptions={carouselResponsiveOptions} circular />}
       </section>
     </main>);
 };
