@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Models\Movies\" />
     <Folder Include="Services\Home\" />
     <Folder Include="Services\Tmdb\" />
   </ItemGroup>

@@ -24,19 +24,19 @@ public class AuthenticationController : ControllerBase
         bool existsUsername = _userRepository.GetByCondition(User => User.Username == request.Username).Any();
         if (existsUsername)
         {
-            return Conflict(new BasicResponse{ Message = "Username is already in use" });
+            return Conflict(new BasicResponse("Username is already in use"));
         }
 
         bool existsEmail = _userRepository.GetByCondition(User => User.Email == request.Email).Any();
         if (existsEmail)
         {
-            return Conflict(new BasicResponse{ Message = "E-mail is already in use." });
+            return Conflict(new BasicResponse("E-mail is already in use."));
         }
 
         string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
         _userRepository.Create(new User(request.Username, passwordHash, request.Email));
 
-        return Ok(new BasicResponse{ Message = "Registered successfully" });
+        return Ok(new BasicResponse("Registered successfully"));
     }
 
     [HttpPost("login")]
