@@ -53,29 +53,29 @@ const Home = () => {
     {
       numVisible: 6,
       breakpoint: '10000px',
-      numScroll: 1
+      numScroll: 6
     },
     {
       numVisible: 3,
       breakpoint: '1500px',
-      numScroll: 1
+      numScroll: 3
     },
     {
       numVisible: 2,
       breakpoint: '1100px',
-      numScroll: 1
+      numScroll: 2
     }
   ];
 
   const carouselItemTemplate = (item: GenericItemCarouselResponse) => {
     return (
-      <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3'
+      <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3 h-28rem'
         onClick={() => navigateToMovie()}>
         <div>
           <img src={`${item.poster}`} alt={item.name} className="carousel-image" />
         </div>
-        <div className='h-3rem'>
-          <h4 className="text-primary ">{item.name}</h4>
+        <div>
+          <h4 className="text-primary text-overflow-ellipsis">{item.name}</h4>
         </div>
       </div>
     );
