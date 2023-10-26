@@ -35,3 +35,11 @@ body {
 .auth-link:hover {
   opacity: 0.6;
 }
+
+.carousel-item {
+  transition: 0.2s;
+}
+
+.carousel-item:hover {
+  opacity: 80%;
+}

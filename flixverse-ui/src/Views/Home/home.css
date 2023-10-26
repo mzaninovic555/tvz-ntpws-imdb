@@ -1,0 +1,11 @@
+.carousel-image {
+  width: 100%;
+}
+
+section {
+  border-bottom: 1px var(--surface-border) solid;
+}
+
+.p-carousel {
+  margin-bottom: 2rem;
+}

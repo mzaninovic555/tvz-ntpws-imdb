@@ -1,7 +1,17 @@
 import api from '../../common/api/api.ts';
-import {MoviePopular} from './MoviePopular.ts';
+import {GenericItemCarouselResponse} from './GenericItemCarouselResponse.ts';
 
-export async function getPopularMovies(): Promise<MoviePopular[]> {
-  const response = await api.get<MoviePopular[]>('/api/popular-movies');
+export async function getPopularMovies(): Promise<GenericItemCarouselResponse[]> {
+  const response = await api.get<GenericItemCarouselResponse[]>('/api/popular-movies');
+  return response?.data;
+}
+
+export async function getPopularShows(): Promise<GenericItemCarouselResponse[]> {
+  const response = await api.get<GenericItemCarouselResponse[]>('/api/popular-shows');
+  return response?.data;
+}
+
+export async function getPopularActors(): Promise<GenericItemCarouselResponse[]> {
+  const response = await api.get<GenericItemCarouselResponse[]>('/api/popular-actors');
   return response?.data;
 }
