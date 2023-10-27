@@ -8,17 +8,19 @@ public class MovieDetailsResponse
     public string Title { get; set; }
     public bool IsAdult { get; set; }
     public List<Genre> Genres { get; set; }
-    public string? Overview { get; set; }
+    public string Overview { get; set; }
     public DateTime? ReleaseDate { get; set; }
     public int? Runtime { get; set; }
     public string Status { get; set; }
     public List<WatchProviderItem>? StreamProviders { get; set; }
     public string BackdropPath { get; set; }
     public string PosterPath { get; set; }
+    public string? Certification { get; set; }
+    public string Tagline { get; set; }
 
     public MovieDetailsResponse(int id, string title, bool isAdult, List<Genre> genres,
         string overview, DateTime releaseDate, int runtime, string status,
-        List<WatchProviderItem> streamProviders, string backdropPath, string posterPath)
+        List<WatchProviderItem> streamProviders, string backdropPath, string posterPath, string certification, string tagline)
     {
         Id = id;
         Title = title;
@@ -31,5 +33,7 @@ public class MovieDetailsResponse
         StreamProviders = streamProviders;
         BackdropPath = backdropPath;
         PosterPath = posterPath;
+        Certification = certification;
+        Tagline = tagline;
     }
 }

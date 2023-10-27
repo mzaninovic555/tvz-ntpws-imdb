@@ -1,0 +1,36 @@
+.poster-container {
+  height: 100%;
+}
+
+.poster-container > img {
+  height: 100%;
+  border-radius: 4%
+}
+
+section {
+  width: 100vw;
+}
+
+.grid {
+  height: 80%;
+}
+
+h5 {
+  margin: 0 5px 0 0;
+}
+
+.divider-icon {
+  font-size: 5px;
+  margin-right: 10px;
+}
+
+.age-rating {
+  margin-right: 12px;
+  padding: 2px;
+}
+
+.tagline {
+  margin: 0 0 1rem;
+  font-weight: 300;
+  font-style: italic;
+}

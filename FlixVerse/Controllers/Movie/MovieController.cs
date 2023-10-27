@@ -1,4 +1,5 @@
-﻿using FlixVerse.Configuration;
+﻿using FlixVerse.Common;
+using FlixVerse.Configuration;
 using FlixVerse.Models.Common;
 using FlixVerse.Models.Movies;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ public class MovieController : ControllerBase
     public async Task<IActionResult> GetMovieDetails(string? id)
     {
         var fetchedMovie = await _client.GetMovieAsync(id,
-            MovieMethods.WatchProviders | MovieMethods.Recommendations);
+            MovieMethods.WatchProviders | MovieMethods.Recommendations | MovieMethods.ReleaseDates);
 
         if (fetchedMovie == null)
         {
@@ -38,9 +39,11 @@ public class MovieController : ControllerBase
             fetchedMovie.ReleaseDate.Value,
             fetchedMovie.Runtime.GetValueOrDefault(-1),
             fetchedMovie.Status,
-            fetchedMovie.WatchProviders.Results.Single(p => p.Key == "US").Value.FlatRate, // TODO: get locale from browser
+            TmdbUtils.GetWatchProvidersFromMovie(fetchedMovie),
             fetchedMovie.BackdropPath,
-            fetchedMovie.PosterPath
+            fetchedMovie.PosterPath,
+            TmdbUtils.GetCertificationFromMovie(fetchedMovie),
+            fetchedMovie.Tagline
         );
 
         return Ok(movieResponse);

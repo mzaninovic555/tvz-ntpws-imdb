@@ -6,11 +6,13 @@ export type MovieDetailsType = {
   title: string,
   isAdult: boolean,
   genres: [Genre],
-  overview?: string,
+  overview: string,
   releaseDate?: Date,
-  runtime?: number,
+  runtime: number,
   status: string,
   streamProviders?: [WatchProviderItem],
   backdropPath: string,
-  posterPath: string
+  posterPath: string,
+  certification?: string,
+  tagline: string
 };
