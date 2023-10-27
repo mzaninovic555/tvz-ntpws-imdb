@@ -68,7 +68,7 @@ const Home = () => {
 
   const carouselItemTemplate = (item: GenericItemCarouselResponse) => {
     return (
-      <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3 h-28rem'
+      <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3'
         onClick={() => navigateToMovie(item.id)}>
         <div>
           <img src={`${item.poster}`} alt={item.name} className="carousel-image" />
