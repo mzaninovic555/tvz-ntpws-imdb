@@ -23,7 +23,10 @@ public class MovieController : ControllerBase
     public async Task<IActionResult> GetMovieDetails(string? id)
     {
         var fetchedMovie = await _client.GetMovieAsync(id,
-            MovieMethods.WatchProviders | MovieMethods.Recommendations | MovieMethods.ReleaseDates);
+            MovieMethods.WatchProviders
+            | MovieMethods.Recommendations
+            | MovieMethods.ReleaseDates
+            | MovieMethods.Credits);
 
         if (fetchedMovie == null)
         {
@@ -43,7 +46,8 @@ public class MovieController : ControllerBase
             fetchedMovie.BackdropPath,
             fetchedMovie.PosterPath,
             TmdbUtils.GetCertificationFromMovie(fetchedMovie),
-            fetchedMovie.Tagline
+            fetchedMovie.Tagline,
+            TmdbUtils.GetCrewFromMovie(fetchedMovie)
         );
 
         return Ok(movieResponse);
