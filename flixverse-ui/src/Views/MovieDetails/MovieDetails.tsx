@@ -33,15 +33,15 @@ const MovieDetails = () => {
     {!movieDetails && <ProgressSpinner />}
     {movieDetails &&
       <main>
-        <section className='h-30rem flex justify-content-center align-items-center'
+        <section className='cover-container flex justify-content-center align-items-center'
           style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
                              url(${TmdbConst.TMDB_IMAGE_PREFIX_URL}${movieDetails?.backdropPath})`,
           backgroundSize: 'cover'}}>
           <div className='container grid justify-content-center align-items-center'>
-            <div className='col-3 poster-container'>
+            <div className='md:col-2 sm:col-12 poster-container mr-3'>
               <img src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${movieDetails?.posterPath}`} alt={`${movieDetails?.title}`}/>
             </div>
-            <div className='col-8 flex flex-column'>
+            <div className='md:col-8 sm:col-12 flex flex-column'>
               <div className='flex flex-column'>
                 <div className='flex align-items-center'>
                   <h1 className='mr-2 my-1'>
@@ -71,6 +71,14 @@ const MovieDetails = () => {
                   <h4 className='tagline'>{movieDetails.tagline}</h4>
                   <h3 className='my-0'>Overview</h3>
                   <p className='text-justify mt-2'>{movieDetails?.overview}</p>
+                </div>}
+              {movieDetails.crew &&
+                <div className='flex mt-3'>
+                  {movieDetails.crew.map((crew) =>
+                    <div className='flex flex-column mr-4'>
+                      <h4 className='my-0'>{crew.name}</h4>
+                      <h5 className='font-italic font-light'>{crew.job}</h5>
+                    </div>)}
                 </div>}
             </div>
           </div>

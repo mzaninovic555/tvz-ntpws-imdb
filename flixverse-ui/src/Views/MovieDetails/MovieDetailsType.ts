@@ -14,5 +14,12 @@ export type MovieDetailsType = {
   backdropPath: string,
   posterPath: string,
   certification?: string,
-  tagline: string
+  tagline: string,
+  crew: CrewType[]
 };
+
+export type CrewType = {
+  id: number,
+  name: string,
+  job: string
+}

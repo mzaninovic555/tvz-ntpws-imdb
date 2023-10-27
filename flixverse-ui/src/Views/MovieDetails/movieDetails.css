@@ -1,10 +1,18 @@
+.cover-container {
+  height: 55vh;
+}
+
 .poster-container {
   height: 100%;
 }
 
 .poster-container > img {
-  height: 100%;
-  border-radius: 4%
+  border-radius: 4%;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 section {
@@ -33,4 +41,31 @@ h5 {
   margin: 0 0 1rem;
   font-weight: 300;
   font-style: italic;
+}
+
+@media only screen and (max-width: 1200px) {
+  .cover-container {
+    height: 70vh;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .cover-container {
+    height: 100vh;
+
+    align-items: start; !important;
+  }
+
+  .container {
+    align-items: start; !important;
+  }
+
+  .poster-container {
+    margin-top: 0;
+    height: 40%;
+  }
+
+  p {
+    margin: 10px;
+  }
 }
