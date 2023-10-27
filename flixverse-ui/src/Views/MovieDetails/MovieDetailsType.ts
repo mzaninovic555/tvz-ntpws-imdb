@@ -15,11 +15,14 @@ export type MovieDetailsType = {
   posterPath: string,
   certification?: string,
   tagline: string,
-  crew: CrewType[]
+  crew?: CrewType[],
+  cast?: CrewType[]
+
 };
 
 export type CrewType = {
   id: number,
   name: string,
-  job: string
+  job: string,
+  profilePath?: string
 }

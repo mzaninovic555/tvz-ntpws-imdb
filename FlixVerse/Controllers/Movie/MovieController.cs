@@ -47,7 +47,8 @@ public class MovieController : ControllerBase
             fetchedMovie.PosterPath,
             TmdbUtils.GetCertificationFromMovie(fetchedMovie),
             fetchedMovie.Tagline,
-            TmdbUtils.GetCrewFromMovie(fetchedMovie)
+            TmdbUtils.GetCrewFromMovie(fetchedMovie),
+            TmdbUtils.GetTopCastFromMovie(fetchedMovie)
         );
 
         return Ok(movieResponse);

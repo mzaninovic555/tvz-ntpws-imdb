@@ -1,11 +1,13 @@
 import {useEffect, useState} from 'react';
 import {getMovieDetails} from './MovieDetailsApi.ts';
 import {useParams} from 'react-router-dom';
-import {MovieDetailsType} from './MovieDetailsType.ts';
+import {CrewType, MovieDetailsType} from './MovieDetailsType.ts';
 import {TmdbConst} from '../../common/TmdbConst.ts';
 import './movieDetails.css';
 import {Tag} from 'primereact/tag';
 import {ProgressSpinner} from 'primereact/progressspinner';
+import {Card} from 'primereact/card';
+import {Carousel} from 'primereact/carousel';
 
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState<MovieDetailsType>();
@@ -28,6 +30,14 @@ const MovieDetails = () => {
 
     setMovieDetails(res);
   };
+
+  const castTemplate = (cast: CrewType) => (
+    <Card className=''>
+      {cast?.profilePath && <img height={400} className='' src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${cast.profilePath}`} alt={cast.name}/>}
+      <h6>{cast.name}</h6>
+    </Card>
+  );
+
   // {movieDetails?.genres.map((x) => <h2>{x.name}</h2>)}
   return (<>
     {!movieDetails && <ProgressSpinner />}
@@ -75,13 +85,16 @@ const MovieDetails = () => {
               {movieDetails.crew &&
                 <div className='flex mt-3'>
                   {movieDetails.crew.map((crew) =>
-                    <div className='flex flex-column mr-4'>
+                    <div className='flex flex-column mr-4' key={crew.id}>
                       <h4 className='my-0'>{crew.name}</h4>
                       <h5 className='font-italic font-light'>{crew.job}</h5>
                     </div>)}
                 </div>}
             </div>
           </div>
+        </section>
+        <section className='container border-bottom-1'>
+          <Carousel value={movieDetails.cast} itemTemplate={castTemplate} numVisible={4} numScroll={1}/>
         </section>
       </main>}
   </>

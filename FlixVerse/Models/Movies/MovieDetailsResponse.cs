@@ -17,11 +17,13 @@ public class MovieDetailsResponse
     public string PosterPath { get; set; }
     public string? Certification { get; set; }
     public string Tagline { get; set; }
-    public List<Crew>? Crew { get; set; }
+    public List<Crew> Crew { get; set; }
+    public List<Crew> Cast { get; set; }
 
     public MovieDetailsResponse(int id, string title, bool isAdult, List<Genre> genres,
         string overview, DateTime releaseDate, int runtime, string status,
-        List<WatchProviderItem> streamProviders, string backdropPath, string posterPath, string certification, string tagline, List<Crew> crew)
+        List<WatchProviderItem> streamProviders, string backdropPath, string posterPath, string certification,
+        string tagline, List<Crew> crew, List<Crew> cast)
     {
         Id = id;
         Title = title;
@@ -37,5 +39,6 @@ public class MovieDetailsResponse
         Certification = certification;
         Tagline = tagline;
         Crew = crew;
+        Cast = cast;
     }
 }

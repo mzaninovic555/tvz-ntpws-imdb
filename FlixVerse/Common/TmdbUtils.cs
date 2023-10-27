@@ -31,12 +31,19 @@ public class TmdbUtils
             .SingleOrDefault(p => p.Key == "US")
             .Value
             ?.FlatRate; // TODO: get locale from browser
-
     }
 
     public static List<Crew>? GetCrewFromMovie(Movie fetchedMovie)
     {
         return fetchedMovie.Credits.Crew.Where(res =>
             res.Job == "Director" || res.Job == "Screenplay" || res.Job == "Writer").ToList();
+    }
+
+    public static List<Crew>? GetTopCastFromMovie(Movie fetchedMovie)
+    {
+        return fetchedMovie.Credits.Crew
+            .Where(res => res.KnownForDepartment == "Acting")
+            .OrderByDescending(res => res.Popularity)
+            .ToList();
     }
 }
