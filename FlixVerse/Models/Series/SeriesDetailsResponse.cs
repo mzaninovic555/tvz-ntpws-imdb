@@ -1,18 +1,17 @@
 ﻿using FlixVerse.Models.Common;
 using TMDbLib.Objects.General;
-using TMDbLib.Objects.Movies;
+using TMDbLib.Objects.TvShows;
 
-namespace FlixVerse.Models.Movies;
+namespace FlixVerse.Models.Series;
 
-public class MovieDetailsResponse : BaseDetailsResponse
+public class SeriesDetailsResponse : BaseDetailsResponse
 {
-    public DateTime? ReleaseDate { get; set; }
-    public int? Runtime { get; set; }
+    public DateTime? StartReleaseDate { get; set; }
+    public DateTime? EndReleaseDate { get; set; }
     public List<WatchProviderItem>? StreamProviders { get; set; }
     public List<Cast> Cast { get; set; }
 
-
-    public MovieDetailsResponse(
+    public SeriesDetailsResponse(
         int id,
         string title,
         List<Genre> genres,
@@ -23,14 +22,14 @@ public class MovieDetailsResponse : BaseDetailsResponse
         string? certification,
         string tagline,
         List<Crew> crew,
-        DateTime? releaseDate,
-        int? runtime,
+        DateTime? startReleaseDate,
+        DateTime? endReleaseDate,
         List<WatchProviderItem>? streamProviders,
         List<Cast> cast) : base(id, title, genres, overview, status, backdropPath, posterPath, certification,
                                 tagline, crew)
     {
-        ReleaseDate = releaseDate;
-        Runtime = runtime;
+        StartReleaseDate = startReleaseDate;
+        EndReleaseDate = endReleaseDate;
         StreamProviders = streamProviders;
         Cast = cast;
     }

@@ -1,13 +1,10 @@
 import {useEffect, useState} from 'react';
 import {getMovieDetails} from './MovieDetailsApi.ts';
 import {useParams} from 'react-router-dom';
-import {CrewType, MovieDetailsType} from './MovieDetailsType.ts';
+import {MovieDetailsType} from './MovieDetailsType.ts';
 import {TmdbConst} from '../../common/TmdbConst.ts';
 import './movieDetails.css';
-import {Tag} from 'primereact/tag';
 import {ProgressSpinner} from 'primereact/progressspinner';
-import {Card} from 'primereact/card';
-import {Carousel} from 'primereact/carousel';
 import CastCarousel from '../../Components/CastCarousel.tsx';
 
 const MovieDetails = () => {
@@ -32,14 +29,6 @@ const MovieDetails = () => {
     setMovieDetails(res);
   };
 
-  const castTemplate = (cast: CrewType) => (
-    <div className='h-10rem w-3'>
-      {cast?.profilePath && <img style={{width: '100%'}} className='' src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${cast.profilePath}`} alt={cast.name}/>}
-      <h6>{cast.name}</h6>
-    </div>
-  );
-
-  // {movieDetails?.genres.map((x) => <h2>{x.name}</h2>)}
   return (<>
     {!movieDetails && <ProgressSpinner />}
     {movieDetails &&
@@ -58,7 +47,6 @@ const MovieDetails = () => {
                   <h1 className='mr-2 my-1'>
                     {movieDetails?.title} {movieDetails?.releaseDate ? `(${new Date(movieDetails.releaseDate).getFullYear()})` : ''}
                   </h1>
-                  {movieDetails?.isAdult ? <Tag severity='danger'>18+</Tag> : ''}
                 </div>
                 <div className='flex align-items-center'>
                   {movieDetails?.certification &&

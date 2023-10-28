@@ -4,6 +4,7 @@ import {Carousel, CarouselResponsiveOption} from 'primereact/carousel';
 import {getPopularActors, getPopularMovies, getPopularShows} from './HomeService.ts';
 import {useNavigate} from 'react-router-dom';
 import './home.css';
+import ItemType from '../../common/enums/ItemType.ts';
 
 
 const Home = () => {
@@ -44,8 +45,17 @@ const Home = () => {
     setpopularActors(res);
   };
 
-  const navigateToMovie = (movieId: number) => {
-    navigate(`/movie/${movieId}`);
+  const naviagateToType = (type: ItemType, movieId: number) => {
+    let prefix = '';
+    switch (type) {
+      case ItemType.Movie:
+        prefix = 'movie';
+        break;
+      case ItemType.Show:
+        prefix = 'series';
+        break;
+    }
+    navigate(`/${prefix}/${movieId}`);
   };
 
   const carouselResponsiveOptions: CarouselResponsiveOption[] = [
@@ -66,10 +76,10 @@ const Home = () => {
     }
   ];
 
-  const carouselItemTemplate = (item: GenericItemCarouselResponse) => {
+  const carouselItemTemplate = (type: ItemType, item: GenericItemCarouselResponse) => {
     return (
       <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3'
-        onClick={() => navigateToMovie(item.id)}>
+        onClick={() => naviagateToType(type, item.id)}>
         <div>
           <img src={`${item.poster}`} alt={item.name} className="carousel-image" />
         </div>
@@ -85,19 +95,22 @@ const Home = () => {
       <section>
         <h2 className='text-primary'>Popular movies</h2>
         {!popularMovies && <div>mashallah he is not loaded</div>}
-        {popularMovies && <Carousel value={popularMovies} itemTemplate={carouselItemTemplate}
+        {popularMovies && <Carousel value={popularMovies}
+          itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Movie, item)}
           responsiveOptions={carouselResponsiveOptions} circular />}
       </section>
       <section>
         <h2 className='text-primary'>Popular shows</h2>
         {!popularShows && <div>mashallah he is not loaded</div>}
-        {popularShows && <Carousel value={popularShows} itemTemplate={carouselItemTemplate}
+        {popularShows && <Carousel value={popularShows}
+          itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Show, item)}
           responsiveOptions={carouselResponsiveOptions} circular />}
       </section>
       <section>
         <h2 className='text-primary'>Popular actors</h2>
         {!popularActors && <div>mashallah he is not loaded</div>}
-        {popularActors && <Carousel value={popularActors} itemTemplate={carouselItemTemplate}
+        {popularActors && <Carousel value={popularActors}
+          itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Person, item)}
           responsiveOptions={carouselResponsiveOptions} circular />}
       </section>
     </main>);

@@ -5,7 +5,6 @@ using FlixVerse.Models.Movies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TMDbLib.Client;
-using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 
 namespace FlixVerse.Controllers.Movie;
@@ -36,18 +35,17 @@ public class MovieController : ControllerBase
         var movieResponse = new MovieDetailsResponse(
             fetchedMovie.Id,
             fetchedMovie.Title,
-            fetchedMovie.Adult,
             fetchedMovie.Genres,
             fetchedMovie.Overview,
-            fetchedMovie.ReleaseDate.Value,
-            fetchedMovie.Runtime.GetValueOrDefault(-1),
             fetchedMovie.Status,
-            TmdbUtils.GetWatchProvidersFromMovie(fetchedMovie),
             fetchedMovie.BackdropPath,
             fetchedMovie.PosterPath,
             TmdbUtils.GetCertificationFromMovie(fetchedMovie),
             fetchedMovie.Tagline,
             TmdbUtils.GetCrewFromMovie(fetchedMovie),
+            fetchedMovie.ReleaseDate.Value,
+            fetchedMovie.Runtime.GetValueOrDefault(-1),
+            TmdbUtils.GetWatchProvidersFromMovie(fetchedMovie),
             TmdbUtils.GetTopCastFromMovie(fetchedMovie)
         );
 

@@ -1,6 +1,6 @@
 import {TmdbConst} from '../common/TmdbConst.ts';
-import {CrewType} from '../Views/MovieDetails/MovieDetailsType.ts';
 import './castCarousel.css';
+import {CrewType} from '../Views/Common/CrewType.ts';
 
 type CastCarouselProps = {
   cast: CrewType[]
