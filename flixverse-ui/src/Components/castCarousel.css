@@ -1,0 +1,7 @@
+.movie-cast-container {
+  width: 10rem;
+}
+
+.movie-cast-container > img {
+  width: 100%;
+}

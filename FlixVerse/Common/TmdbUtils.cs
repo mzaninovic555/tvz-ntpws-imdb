@@ -39,10 +39,10 @@ public class TmdbUtils
             res.Job == "Director" || res.Job == "Screenplay" || res.Job == "Writer").ToList();
     }
 
-    public static List<Crew>? GetTopCastFromMovie(Movie fetchedMovie)
+    public static List<Cast>? GetTopCastFromMovie(Movie fetchedMovie)
     {
-        return fetchedMovie.Credits.Crew
-            .Where(res => res.KnownForDepartment == "Acting")
+        return fetchedMovie.Credits.Cast
+            .Where(res => !string.IsNullOrEmpty(res.ProfilePath))
             .OrderByDescending(res => res.Popularity)
             .ToList();
     }

@@ -8,6 +8,7 @@ import {Tag} from 'primereact/tag';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {Card} from 'primereact/card';
 import {Carousel} from 'primereact/carousel';
+import CastCarousel from '../../Components/CastCarousel.tsx';
 
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState<MovieDetailsType>();
@@ -32,10 +33,10 @@ const MovieDetails = () => {
   };
 
   const castTemplate = (cast: CrewType) => (
-    <Card className=''>
-      {cast?.profilePath && <img height={400} className='' src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${cast.profilePath}`} alt={cast.name}/>}
+    <div className='h-10rem w-3'>
+      {cast?.profilePath && <img style={{width: '100%'}} className='' src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${cast.profilePath}`} alt={cast.name}/>}
       <h6>{cast.name}</h6>
-    </Card>
+    </div>
   );
 
   // {movieDetails?.genres.map((x) => <h2>{x.name}</h2>)}
@@ -44,7 +45,7 @@ const MovieDetails = () => {
     {movieDetails &&
       <main>
         <section className='cover-container flex justify-content-center align-items-center'
-          style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+          style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
                              url(${TmdbConst.TMDB_IMAGE_PREFIX_URL}${movieDetails?.backdropPath})`,
           backgroundSize: 'cover'}}>
           <div className='container grid justify-content-center align-items-center'>
@@ -64,7 +65,8 @@ const MovieDetails = () => {
                     <>
                       <h5 className='border-1 age-rating'>{movieDetails.certification}</h5>
                       <i className='divider-icon pi pi-circle-on'/>
-                    </>}
+                    </>
+                  }
                   {movieDetails?.releaseDate && <h5>{new Date(movieDetails?.releaseDate).toLocaleDateString()}</h5>}
                   <i className='divider-icon pi pi-circle-on'/>
                   {movieDetails.genres.map((genre, i) =>
@@ -73,7 +75,8 @@ const MovieDetails = () => {
                     <>
                       <i className='divider-icon pi pi-circle-on'/>
                       <h5>{`${movieDetails.runtime}min`}</h5>
-                    </>}
+                    </>
+                  }
                 </div>
               </div>
               {movieDetails.overview &&
@@ -81,22 +84,26 @@ const MovieDetails = () => {
                   <h4 className='tagline'>{movieDetails.tagline}</h4>
                   <h3 className='my-0'>Overview</h3>
                   <p className='text-justify mt-2'>{movieDetails?.overview}</p>
-                </div>}
+                </div>
+              }
               {movieDetails.crew &&
                 <div className='flex mt-3'>
                   {movieDetails.crew.map((crew) =>
                     <div className='flex flex-column mr-4' key={crew.id}>
                       <h4 className='my-0'>{crew.name}</h4>
                       <h5 className='font-italic font-light'>{crew.job}</h5>
-                    </div>)}
-                </div>}
+                    </div>)
+                  }
+                </div>
+              }
             </div>
           </div>
         </section>
-        <section className='container border-bottom-1'>
-          <Carousel value={movieDetails.cast} itemTemplate={castTemplate} numVisible={4} numScroll={1}/>
-        </section>
-      </main>}
+        {movieDetails.cast &&
+          <CastCarousel cast={movieDetails.cast} />
+        }
+      </main>
+    }
   </>
   );
 };

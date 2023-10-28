@@ -1,4 +1,5 @@
 ﻿using TMDbLib.Objects.General;
+using TMDbLib.Objects.Movies;
 
 namespace FlixVerse.Models.Movies;
 
@@ -18,12 +19,12 @@ public class MovieDetailsResponse
     public string? Certification { get; set; }
     public string Tagline { get; set; }
     public List<Crew> Crew { get; set; }
-    public List<Crew> Cast { get; set; }
+    public List<Cast> Cast { get; set; }
 
     public MovieDetailsResponse(int id, string title, bool isAdult, List<Genre> genres,
         string overview, DateTime releaseDate, int runtime, string status,
         List<WatchProviderItem> streamProviders, string backdropPath, string posterPath, string certification,
-        string tagline, List<Crew> crew, List<Crew> cast)
+        string tagline, List<Crew> crew, List<Cast> cast)
     {
         Id = id;
         Title = title;
