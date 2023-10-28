@@ -3,7 +3,7 @@ import {getMovieDetails} from './MovieDetailsApi.ts';
 import {useParams} from 'react-router-dom';
 import {MovieDetailsType} from './MovieDetailsType.ts';
 import {TmdbConst} from '../../common/TmdbConst.ts';
-import './movieDetails.css';
+import '../../common/css/itemDetails.css';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import CastCarousel from '../../Components/CastCarousel.tsx';
 

@@ -4,4 +4,5 @@ export type CrewType = {
   name: string,
   job: string,
   profilePath?: string
+  character?: string
 }

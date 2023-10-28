@@ -26,6 +26,16 @@ body {
   width: 80%;
 }
 
+.container-70 {
+  margin: 0 auto;
+  width: 70%;
+}
+
+.container-60 {
+  margin: 0 auto;
+  width: 60%;
+}
+
 .auth-link {
   color: #7c3aed;
   text-decoration: none;

@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {TmdbConst} from '../../common/TmdbConst.ts';
 import CastCarousel from '../../Components/CastCarousel.tsx';
-import './seriesDetails.css';
+import '../../common/css/itemDetails.css';
 import {SeriesDetailsType} from './SeriesDetailsType.ts';
 import {getSeriesDetails} from './SeriesDetailsApi.ts';
 
@@ -66,7 +66,7 @@ const SeriesDetails = () => {
                 <div className='text-left mt-4'>
                   <h4 className='tagline'>{seriesDetails.tagline}</h4>
                   <h3 className='my-0'>Overview</h3>
-                  <p className='text-justify mt-2'>{seriesDetails?.overview}</p>
+                  <p className='text-justify mt-2 item-overview'>{seriesDetails?.overview}</p>
                 </div>
               }
               {seriesDetails.crew &&
