@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {GenericItemCarouselResponse} from './GenericItemCarouselResponse.ts';
+import {GenericItemResponse} from '../../common/response/GenericItemResponse.ts';
 import {Carousel, CarouselResponsiveOption} from 'primereact/carousel';
 import {getPopularActors, getPopularMovies, getPopularShows} from './HomeService.ts';
 import {useNavigate} from 'react-router-dom';
@@ -9,9 +9,9 @@ import GenericSkeleton from '../../Components/GenericSkeleton.tsx';
 
 
 const Home = () => {
-  const [popularMovies, setPopularMovies] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
-  const [popularShows, setpopularShows] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
-  const [popularActors, setpopularActors] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
+  const [popularMovies, setPopularMovies] = useState<GenericItemResponse[] | undefined>(undefined);
+  const [popularShows, setpopularShows] = useState<GenericItemResponse[] | undefined>(undefined);
+  const [popularActors, setpopularActors] = useState<GenericItemResponse[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -52,10 +52,10 @@ const Home = () => {
     let prefix = '';
     switch (type) {
       case ItemType.Movie:
-        prefix = 'movie';
+        prefix = 'movies';
         break;
       case ItemType.Show:
-        prefix = 'series';
+        prefix = 'tv-shows';
         break;
     }
     navigate(`/${prefix}/${movieId}`);
@@ -79,7 +79,7 @@ const Home = () => {
     }
   ];
 
-  const carouselItemTemplate = (type: ItemType, item: GenericItemCarouselResponse) => {
+  const carouselItemTemplate = (type: ItemType, item: GenericItemResponse) => {
     return (
       <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3'
         onClick={() => naviagateToType(type, item.id)}>
@@ -102,21 +102,21 @@ const Home = () => {
             <h2 className='text-primary'>Popular movies</h2>
             {!popularMovies && <div>mashallah he is not loaded</div>}
             {popularMovies && <Carousel value={popularMovies}
-              itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Movie, item)}
+              itemTemplate={(item: GenericItemResponse) => carouselItemTemplate(ItemType.Movie, item)}
               responsiveOptions={carouselResponsiveOptions} circular />}
           </section>
           <section>
             <h2 className='text-primary'>Popular shows</h2>
             {!popularShows && <div>mashallah he is not loaded</div>}
             {popularShows && <Carousel value={popularShows}
-              itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Show, item)}
+              itemTemplate={(item: GenericItemResponse) => carouselItemTemplate(ItemType.Show, item)}
               responsiveOptions={carouselResponsiveOptions} circular />}
           </section>
           <section>
             <h2 className='text-primary'>Popular actors</h2>
             {!popularActors && <div>mashallah he is not loaded</div>}
             {popularActors && <Carousel value={popularActors}
-              itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Person, item)}
+              itemTemplate={(item: GenericItemResponse) => carouselItemTemplate(ItemType.Person, item)}
               responsiveOptions={carouselResponsiveOptions} circular />}
           </section>
         </main>}

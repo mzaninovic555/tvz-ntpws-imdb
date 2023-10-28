@@ -48,7 +48,7 @@ body {
 
 .carousel-item {
   height: 92%;
-  transition: 0.2s;
+  transition: 0.1s;
 }
 
 .carousel-item:hover {

@@ -17,7 +17,7 @@ const CastCarousel = (props: CastCarouselProps) => {
               {props.cast.map((c) =>
                 <li key={c.id} className='inline-block mr-4 pb-3 shadow-3 text-center border-round'>
                   <div className='flex flex-column movie-cast-container'>
-                    <img className='movie-cast-image mb-2 border-round' src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${c.profilePath}`} alt={`${c.name}`}/>
+                    <img className='mb-2 border-round' src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${c.profilePath}`} alt={`${c.name}`}/>
                     <h5 className='text-900 white-space-normal'>{c.name}</h5>
                     <h6 className='text-700 white-space-normal my-1'>{c?.character}</h6>
                   </div>

@@ -1,0 +1,8 @@
+.search-item-container {
+  min-height: max-content;
+  transition: 0.1s;
+}
+
+.search-item-container:hover {
+  opacity: 80%;
+}

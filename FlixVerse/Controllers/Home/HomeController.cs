@@ -1,6 +1,7 @@
 ﻿using FlixVerse.Common;
 using FlixVerse.Configuration;
 using FlixVerse.Models.Article;
+using FlixVerse.Models.Item;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TMDbLib.Client;
@@ -23,7 +24,7 @@ public class HomeController : ControllerBase
         var popularMoviesAsync = await _client.GetTrendingMoviesAsync(TimeWindow.Week);
 
         var movieResults = popularMoviesAsync.Results
-            .Select(res => new GenericItemCarouselResponse(
+            .Select(res => new GenericItemResponse(
                 res.Id,
                 res.Title,
                 TmdbUtils.GetImageUrl(res.PosterPath),
@@ -41,7 +42,7 @@ public class HomeController : ControllerBase
 
         var showResults = popularShowsResult.Results
             .OrderByDescending(res => res.Popularity)
-            .Select(res => new GenericItemCarouselResponse(
+            .Select(res => new GenericItemResponse(
                 res.Id,
                 res.Name,
                 TmdbUtils.GetImageUrl(res.PosterPath),
@@ -58,7 +59,7 @@ public class HomeController : ControllerBase
         var popularMoviesAsync = await _client.GetTrendingPeopleAsync(TimeWindow.Week);
 
         var movieResults = popularMoviesAsync.Results
-            .Select(res => new GenericItemCarouselResponse(
+            .Select(res => new GenericItemResponse(
                 res.Id,
                 res.Name,
                 TmdbUtils.GetImageUrl(res.ProfilePath),
