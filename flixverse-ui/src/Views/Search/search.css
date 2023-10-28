@@ -6,3 +6,7 @@
 .search-item-container:hover {
   opacity: 80%;
 }
+
+.grid {
+  justify-content: center
+}
