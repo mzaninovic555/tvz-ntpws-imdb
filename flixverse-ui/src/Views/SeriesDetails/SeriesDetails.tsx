@@ -46,7 +46,9 @@ const SeriesDetails = () => {
                 <div className='flex align-items-center'>
                   <h1 className='mr-2 my-1'>
                     {seriesDetails?.title} {seriesDetails?.startReleaseDate ? `(${new Date(seriesDetails.startReleaseDate).getFullYear()}` : ''}
-                    {seriesDetails?.endReleaseDate && seriesDetails.status == 'Ended' ? ` - ${new Date(seriesDetails.endReleaseDate).getFullYear()})` : ' - )'}
+                    {seriesDetails?.endReleaseDate && seriesDetails.status == 'Ended' ?
+                      ` - ${new Date(seriesDetails.endReleaseDate).getFullYear()})` :
+                      ' - )'}
                   </h1>
                 </div>
                 <div className='flex align-items-center'>
