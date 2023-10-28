@@ -84,7 +84,7 @@ const SeriesDetails = () => {
             </div>
           </div>
         </section>
-        {seriesDetails.cast && seriesDetails.cast.length > 0 && <CastCarousel cast={seriesDetails.cast} />}
+        <CastCarousel cast={seriesDetails.cast} />
       </main>
     }
   </>

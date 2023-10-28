@@ -87,9 +87,7 @@ const MovieDetails = () => {
             </div>
           </div>
         </section>
-        {movieDetails.cast &&
-          <CastCarousel cast={movieDetails.cast} />
-        }
+        <CastCarousel cast={movieDetails.cast} />
       </main>
     }
   </>
