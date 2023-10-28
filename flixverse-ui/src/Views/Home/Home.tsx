@@ -5,20 +5,23 @@ import {getPopularActors, getPopularMovies, getPopularShows} from './HomeService
 import {useNavigate} from 'react-router-dom';
 import './home.css';
 import ItemType from '../../common/enums/ItemType.ts';
+import GenericSkeleton from '../../Components/GenericSkeleton.tsx';
 
 
 const Home = () => {
   const [popularMovies, setPopularMovies] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
   const [popularShows, setpopularShows] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
   const [popularActors, setpopularActors] = useState<GenericItemCarouselResponse[] | undefined>(undefined);
-
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     void fetchPopularMovies();
     void fetchPopularShows();
     void fetchPopularActors();
+    setLoading(false);
   }, []);
 
   const fetchPopularMovies = async () => {
@@ -91,29 +94,33 @@ const Home = () => {
   };
 
   return (
-    <main className='container mt-5 text-left'>
-      <section>
-        <h2 className='text-primary'>Popular movies</h2>
-        {!popularMovies && <div>mashallah he is not loaded</div>}
-        {popularMovies && <Carousel value={popularMovies}
-          itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Movie, item)}
-          responsiveOptions={carouselResponsiveOptions} circular />}
-      </section>
-      <section>
-        <h2 className='text-primary'>Popular shows</h2>
-        {!popularShows && <div>mashallah he is not loaded</div>}
-        {popularShows && <Carousel value={popularShows}
-          itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Show, item)}
-          responsiveOptions={carouselResponsiveOptions} circular />}
-      </section>
-      <section>
-        <h2 className='text-primary'>Popular actors</h2>
-        {!popularActors && <div>mashallah he is not loaded</div>}
-        {popularActors && <Carousel value={popularActors}
-          itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Person, item)}
-          responsiveOptions={carouselResponsiveOptions} circular />}
-      </section>
-    </main>);
+    <>
+      {loading && <GenericSkeleton />}
+      {!loading &&
+        <main className='container mt-5 text-left'>
+          <section>
+            <h2 className='text-primary'>Popular movies</h2>
+            {!popularMovies && <div>mashallah he is not loaded</div>}
+            {popularMovies && <Carousel value={popularMovies}
+              itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Movie, item)}
+              responsiveOptions={carouselResponsiveOptions} circular />}
+          </section>
+          <section>
+            <h2 className='text-primary'>Popular shows</h2>
+            {!popularShows && <div>mashallah he is not loaded</div>}
+            {popularShows && <Carousel value={popularShows}
+              itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Show, item)}
+              responsiveOptions={carouselResponsiveOptions} circular />}
+          </section>
+          <section>
+            <h2 className='text-primary'>Popular actors</h2>
+            {!popularActors && <div>mashallah he is not loaded</div>}
+            {popularActors && <Carousel value={popularActors}
+              itemTemplate={(item: GenericItemCarouselResponse) => carouselItemTemplate(ItemType.Person, item)}
+              responsiveOptions={carouselResponsiveOptions} circular />}
+          </section>
+        </main>}
+    </>);
 };
 
 export default Home;
