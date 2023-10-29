@@ -25,7 +25,7 @@ export type SearchFilter = {
 
 const BaseSearch = (props: SearchProps) => {
   const [searchItems, setSearchItems] = useState<GenericItemResponse[] | null>(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [availableGenres, setAvailableGenres] = useState<Genre[]>([]);
   const [filterValues, setFilterValues] = useState<SearchFilter>({
@@ -78,6 +78,7 @@ const BaseSearch = (props: SearchProps) => {
       return;
     }
     setSearchItems(res);
+    setLoading(false);
   };
 
   const naviagateToType = (movieId: number) => {

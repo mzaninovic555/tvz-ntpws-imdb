@@ -11,6 +11,8 @@ public class SeriesDetailsResponse : BaseDetailsResponse
     public List<WatchProviderItem>? StreamProviders { get; set; }
     public List<Cast> Cast { get; set; }
 
+    public int? NumberOfSeasons { get; set; }
+
     public SeriesDetailsResponse(
         int id,
         string title,
@@ -25,12 +27,14 @@ public class SeriesDetailsResponse : BaseDetailsResponse
         DateTime? startReleaseDate,
         DateTime? endReleaseDate,
         List<WatchProviderItem>? streamProviders,
-        List<Cast> cast) : base(id, title, genres, overview, status, backdropPath, posterPath, certification,
+        List<Cast> cast,
+        int? numberOfSeasons) : base(id, title, genres, overview, status, backdropPath, posterPath, certification,
                                 tagline, crew)
     {
         StartReleaseDate = startReleaseDate;
         EndReleaseDate = endReleaseDate;
         StreamProviders = streamProviders;
         Cast = cast;
+        NumberOfSeasons = numberOfSeasons;
     }
 }

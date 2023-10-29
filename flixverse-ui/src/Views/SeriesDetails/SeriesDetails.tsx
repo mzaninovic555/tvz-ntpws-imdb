@@ -62,6 +62,8 @@ const SeriesDetails = () => {
                   <i className='divider-icon pi pi-circle-on'/>
                   {seriesDetails.genres.map((genre, i) =>
                     <h5 key={genre.id}>{genre.name}{ i < seriesDetails.genres.length - 1 ? ', ' : ''}</h5>)}
+                  <i className='divider-icon pi pi-circle-on'/>
+                  {seriesDetails?.numberOfSeasons && <h5>{seriesDetails.numberOfSeasons} seasons</h5>}
                 </div>
               </div>
               {seriesDetails.overview &&

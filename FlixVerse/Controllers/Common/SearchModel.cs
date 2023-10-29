@@ -1,6 +1,4 @@
-﻿using TMDbLib.Objects.General;
-
-namespace FlixVerse.Controllers.Series;
+﻿namespace FlixVerse.Controllers.Common;
 
 public class SearchModel
 {

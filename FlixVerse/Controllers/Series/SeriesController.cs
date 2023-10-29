@@ -46,7 +46,8 @@ public class SeriesController : ControllerBase
             fetchedSeries.FirstAirDate,
             fetchedSeries.LastAirDate,
             TmdbUtils.GetWatchProvidersFromSeries(fetchedSeries),
-            TmdbUtils.GetTopCastFromSeries(fetchedSeries)
+            TmdbUtils.GetTopCastFromSeries(fetchedSeries),
+            fetchedSeries.NumberOfSeasons
         );
 
         return Ok(showResponse);

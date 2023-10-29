@@ -1,6 +1,6 @@
 ﻿using FlixVerse.Common;
 using FlixVerse.Configuration;
-using FlixVerse.Controllers.Series;
+using FlixVerse.Controllers.Common;
 using FlixVerse.Models.Article;
 using FlixVerse.Models.Item;
 using Microsoft.AspNetCore.Mvc;
@@ -82,7 +82,7 @@ public class SearchController : ControllerBase
                 res.Id,
                 res.Name,
                 TmdbUtils.GetImageUrl(res.PosterPath),
-                ItemType.Movie))
+                ItemType.Show))
             .ToList();
 
         return Ok(showResults);
