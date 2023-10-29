@@ -10,6 +10,8 @@ import {ProgressSpinner} from 'primereact/progressspinner';
 import {Genre} from '../Common/Genre.ts';
 import {Calendar} from 'primereact/calendar';
 import {Nullable} from 'primereact/ts-helpers';
+import {getMovieGenres, getShowGenres} from '../../common/api/GenreService.ts';
+import {MultiSelect, MultiSelectChangeEvent} from 'primereact/multiselect';
 
 type SearchProps = {
   type: ItemType
@@ -25,15 +27,22 @@ const BaseSearch = (props: SearchProps) => {
   const [searchItems, setSearchItems] = useState<GenericItemResponse[] | null>(null);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [availableGenres, setAvailableGenres] = useState<Genre[]>([]);
   const [filterValues, setFilterValues] = useState<SearchFilter>({
     releaseDateFrom: undefined,
-    releaseDateTo: new Date(),
+    releaseDateTo: undefined,
     genres: []
   });
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
+    void fetchGenres();
+    fetchByType();
+  }, [page]);
+
+  const fetchByType = () => {
     switch (props.type) {
       case ItemType.Movie:
         void fetchMoviesSearch();
@@ -42,10 +51,19 @@ const BaseSearch = (props: SearchProps) => {
         void getShowSearch();
         break;
     }
-  }, [page]);
+  };
+
+  const fetchGenres = async () => {
+    const res = props.type === ItemType.Movie ?
+      await getMovieGenres().catch() :
+      await getShowGenres().catch();
+    if (!res) {
+      return;
+    }
+    setAvailableGenres(res);
+  };
 
   const fetchMoviesSearch = async () => {
-    setLoading(true);
     const res = await getMoviesSearch(page, filterValues).catch(); // TODO: error handling
     if (!res) {
       return;
@@ -102,7 +120,11 @@ const BaseSearch = (props: SearchProps) => {
     if (filterValues.releaseDateFrom && date < filterValues.releaseDateFrom) {
       date = filterValues.releaseDateFrom;
     }
-    setFilterValues({...filterValues, releaseDateFrom: (date)});
+    setFilterValues({...filterValues, releaseDateTo: (date)});
+  };
+
+  const setFilterGenre = (e: Genre[]) => {
+    setFilterValues({...filterValues, genres: (e)});
   };
 
   const searchItemTemplate = (item: GenericItemResponse) => {
@@ -125,9 +147,12 @@ const BaseSearch = (props: SearchProps) => {
         <div className='container'>
           <div className='flex justify-content-center mb-4'>
             <Calendar value={filterValues.releaseDateFrom} onChange={(e) => setFromDate(e.value)}
-              className='mr-4' placeholder='From date' showIcon/>
+              className='mr-4' placeholder='From date' showIcon />
             <Calendar value={filterValues.releaseDateTo} onChange={(e) => setToDate(e.value)}
-              placeholder='To date' showIcon/>
+              className='mr-4' placeholder='To date' showIcon />
+            <MultiSelect placeholder='Filter by genre' className='mr-4 w-2' options={availableGenres} value={filterValues.genres}
+              optionLabel='name' onChange={(e: MultiSelectChangeEvent) => setFilterGenre(e.value)} filter />
+            <Button label='Search' onClick={fetchByType} />
           </div>
           <DataView value={searchItems} itemTemplate={searchItemTemplate} layout='grid' />
           <div>
