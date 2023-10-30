@@ -24,8 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Services\Home\" />
-    <Folder Include="Services\Tmdb\" />
   </ItemGroup>
 
 </Project>

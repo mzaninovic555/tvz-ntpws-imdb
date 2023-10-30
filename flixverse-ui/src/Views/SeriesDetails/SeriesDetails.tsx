@@ -6,9 +6,12 @@ import CastCarousel from '../../Components/CastCarousel.tsx';
 import '../../common/css/itemDetails.css';
 import {SeriesDetailsType} from './SeriesDetailsType.ts';
 import {getSeriesDetails} from './SeriesDetailsApi.ts';
+import {Button} from 'primereact/button';
+import useAuth from '../../common/context/AuthContext.ts';
 
 const SeriesDetails = () => {
   const [seriesDetails, setSeriesDetails] = useState<SeriesDetailsType>();
+  const auth = useAuth();
 
   const params = useParams();
 
@@ -41,7 +44,7 @@ const SeriesDetails = () => {
             <div className='md:col-2 sm:col-12 poster-container mr-3'>
               <img src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${seriesDetails?.posterPath}`} alt={`${seriesDetails?.title}`}/>
             </div>
-            <div className='md:col-8 sm:col-12 flex flex-column'>
+            <div className='sm:mt-5 md:col-8 sm:col-12 flex flex-column'>
               <div className='flex flex-column'>
                 <div className='flex align-items-center'>
                   <h1 className='mr-2 my-1'>
@@ -50,6 +53,8 @@ const SeriesDetails = () => {
                       ` - ${new Date(seriesDetails.endReleaseDate).getFullYear()})` :
                       ' - )'}
                   </h1>
+                  {auth.authInfo.authenticated && seriesDetails.isAddedToWatchlist &&
+                    <Button icon="pi pi-bookmark" size='small' rounded severity="secondary" aria-label="Bookmark" />}
                 </div>
                 <div className='flex align-items-center'>
                   {seriesDetails?.certification &&

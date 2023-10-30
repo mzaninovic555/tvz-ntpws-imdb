@@ -28,8 +28,9 @@ public class SeriesDetailsResponse : BaseDetailsResponse
         DateTime? endReleaseDate,
         List<WatchProviderItem>? streamProviders,
         List<Cast> cast,
-        int? numberOfSeasons) : base(id, title, genres, overview, status, backdropPath, posterPath, certification,
-                                tagline, crew)
+        int? numberOfSeasons,
+        bool? isAddedToWatchlist) : base(id, title, genres, overview, status, backdropPath, posterPath, certification,
+                                tagline, crew, isAddedToWatchlist)
     {
         StartReleaseDate = startReleaseDate;
         EndReleaseDate = endReleaseDate;

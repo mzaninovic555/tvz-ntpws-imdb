@@ -26,11 +26,7 @@ const Navbar = () => {
     {
       label: 'TV Shows',
       url: '/tv-shows'
-    },
-    {
-      label: 'Actors',
-      url: '/actors'
-    },
+    }
   ];
 
   const logOut = () => {
@@ -44,9 +40,14 @@ const Navbar = () => {
       icon: 'pi pi-user',
       items: [
         {
-          label: 'My page',
-          icon: 'pi pi-user',
-          url: '/'
+          label: 'Settings',
+          icon: 'pi pi-cog',
+          url: '/settings'
+        },
+        {
+          label: 'Watchlist',
+          icon: 'pi pi-bookmark',
+          url: '/watchlist'
         },
         {
           label: 'Logout',
@@ -71,7 +72,6 @@ const Navbar = () => {
   );
 
   const start = (
-    // TODO: add navigate to home
     <div className='flex align-items-center mx-2 pr-4 border-gray-300 flixverse-menubar-start cursor-pointer'
       onClick={() => navigate('/')}>
       <img alt='logo' src={logo} height={60} className='mr-3 my-0'></img>

@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using FlixVerse.Configuration;
+using FlixVerse.Data;
 using FlixVerse.Models.User;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -11,9 +12,13 @@ namespace FlixVerse.Services.Security;
 public class JwtService
 {
     private readonly JwtConfiguration _options;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly UserRepository _userRepository;
 
-    public JwtService(IOptions<JwtConfiguration> options)
+    public JwtService(IOptions<JwtConfiguration> options, IHttpContextAccessor httpContextAccessor, UserRepository userRepository)
     {
+        _httpContextAccessor = httpContextAccessor;
+        _userRepository = userRepository;
         _options = options.Value;
     }
 
@@ -33,5 +38,13 @@ public class JwtService
             signingCredentials: credentials
         );
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public User? GetUsernameFromContext()
+    {
+        string? username = _httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(claim => claim.Type == "name")?.Value;
+        return username.IsNullOrEmpty()
+            ? null
+            : _userRepository.GetByCondition(user => user.Username == username).FirstOrDefault();
     }
 }

@@ -1,7 +1,9 @@
 ﻿using FlixVerse.Common;
 using FlixVerse.Configuration;
+using FlixVerse.Models.Article;
 using FlixVerse.Models.Common;
 using FlixVerse.Models.Series;
+using FlixVerse.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TMDbLib.Client;
@@ -13,8 +15,10 @@ namespace FlixVerse.Controllers.Series;
 public class SeriesController : ControllerBase
 {
     private readonly TMDbClient _client;
-    public SeriesController(IOptions<TmdbProperties> props)
+    private readonly WatchlistService _watchlistService;
+    public SeriesController(IOptions<TmdbProperties> props, WatchlistService watchlistService)
     {
+        _watchlistService = watchlistService;
         _client = new TMDbClient(props.Value.ApiKey);
     }
 
@@ -25,7 +29,6 @@ public class SeriesController : ControllerBase
             TvShowMethods.WatchProviders
             | TvShowMethods.Recommendations
             | TvShowMethods.Credits);
-
 
         if (fetchedSeries == null)
         {
@@ -47,7 +50,8 @@ public class SeriesController : ControllerBase
             fetchedSeries.LastAirDate,
             TmdbUtils.GetWatchProvidersFromSeries(fetchedSeries),
             TmdbUtils.GetTopCastFromSeries(fetchedSeries),
-            fetchedSeries.NumberOfSeasons
+            fetchedSeries.NumberOfSeasons,
+            _watchlistService.IsItemInWatchlist(fetchedSeries.Id, ItemType.Show)
         );
 
         return Ok(showResponse);

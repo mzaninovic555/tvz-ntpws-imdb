@@ -25,7 +25,7 @@ export type SearchFilter = {
 
 const BaseSearch = (props: SearchProps) => {
   const [searchItems, setSearchItems] = useState<GenericItemResponse[] | null>(null);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [availableGenres, setAvailableGenres] = useState<Genre[]>([]);
   const [filterValues, setFilterValues] = useState<SearchFilter>({
@@ -51,6 +51,15 @@ const BaseSearch = (props: SearchProps) => {
         void getShowSearch();
         break;
     }
+  };
+
+  const clearFilters = () => {
+    setFilterValues({
+      releaseDateFrom: undefined,
+      releaseDateTo: undefined,
+      genres: []
+    });
+    fetchByType();
   };
 
   const fetchGenres = async () => {
@@ -98,12 +107,13 @@ const BaseSearch = (props: SearchProps) => {
     if (page == 1) {
       return;
     }
-    setPage(page -1 );
+    setPage(page - 1);
   };
 
   const loadNext = () => {
     setPage(page + 1);
   };
+
   const setFromDate = (date: Nullable<Date>) => {
     if (!date) {
       return;
@@ -148,12 +158,13 @@ const BaseSearch = (props: SearchProps) => {
         <div className='container'>
           <div className='flex justify-content-center mb-4'>
             <Calendar value={filterValues.releaseDateFrom} onChange={(e) => setFromDate(e.value)}
-              className='mr-4' placeholder='From date' showIcon />
+              className='mr-2' placeholder='From date' showIcon />
             <Calendar value={filterValues.releaseDateTo} onChange={(e) => setToDate(e.value)}
-              className='mr-4' placeholder='To date' showIcon />
-            <MultiSelect placeholder='Filter by genre' className='mr-4 w-2' options={availableGenres} value={filterValues.genres}
+              className='mr-2' placeholder='To date' showIcon />
+            <MultiSelect placeholder='Filter by genre' className='mr-2 w-2' options={availableGenres} value={filterValues.genres}
               optionLabel='name' onChange={(e: MultiSelectChangeEvent) => setFilterGenre(e.value)} filter />
-            <Button label='Search' onClick={fetchByType} />
+            <Button label='Search' className='mr-2' onClick={fetchByType} />
+            <Button label='Clear' onClick={clearFilters} />
           </div>
           <DataView value={searchItems} itemTemplate={searchItemTemplate} layout='grid' />
           <div>

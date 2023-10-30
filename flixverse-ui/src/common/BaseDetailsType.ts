@@ -12,5 +12,6 @@ export type BaseDetailsType = {
   certification?: string,
   tagline: string,
   crew?: CrewType[],
-  cast?: CrewType[]
+  cast?: CrewType[],
+  isAddedToWatchlist?: boolean
 };

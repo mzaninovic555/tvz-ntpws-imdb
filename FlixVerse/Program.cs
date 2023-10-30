@@ -2,6 +2,7 @@ using System.Text;
 using FlixVerse.Configuration;
 using FlixVerse.Data;
 using FlixVerse.Data.Context;
+using FlixVerse.Services;
 using FlixVerse.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -37,8 +38,12 @@ builder.Services.Configure<TmdbProperties>(builder.Configuration.GetSection(Tmdb
 builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection(JwtConfiguration.prefix));
 
 builder.Services.AddScoped<JwtService>();
-builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<WatchlistService>();
 
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<WatchlistRepository>();
+
+builder.Services.AddHttpContextAccessor();
 
 // Security
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

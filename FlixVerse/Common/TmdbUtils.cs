@@ -1,6 +1,7 @@
 ﻿using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.TvShows;
+using Cast = TMDbLib.Objects.Movies.Cast;
 
 namespace FlixVerse.Common;
 
@@ -57,7 +58,7 @@ public class TmdbUtils
             res.Job == "Director" || res.Job == "Screenplay" || res.Department == "Writing").ToList();
     }
 
-    public static List<TMDbLib.Objects.Movies.Cast>? GetTopCastFromMovie(Movie fetchedMovie)
+    public static List<Cast>? GetTopCastFromMovie(Movie fetchedMovie)
     {
         return fetchedMovie.Credits.Cast
             .Where(res => !string.IsNullOrEmpty(res.ProfilePath))

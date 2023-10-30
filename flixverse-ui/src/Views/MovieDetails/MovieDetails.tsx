@@ -1,14 +1,17 @@
 import {useEffect, useState} from 'react';
-import {getMovieDetails} from './MovieDetailsApi.ts';
+import {addMovieToWatchlist, getMovieDetails} from './MovieDetailsApi.ts';
 import {useParams} from 'react-router-dom';
 import {MovieDetailsType} from './MovieDetailsType.ts';
 import {TmdbConst} from '../../common/TmdbConst.ts';
 import '../../common/css/itemDetails.css';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import CastCarousel from '../../Components/CastCarousel.tsx';
+import {Button} from 'primereact/button';
+import useAuth from '../../common/context/AuthContext.ts';
 
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState<MovieDetailsType>();
+  const auth = useAuth();
 
   const params = useParams();
 
@@ -29,6 +32,12 @@ const MovieDetails = () => {
     setMovieDetails(res);
   };
 
+  const addToWatchlist = async () => {
+    console.log(movieDetails?.id);
+    const res = await addMovieToWatchlist(movieDetails!.id);
+    console.log(res);
+  };
+
   return (<>
     {!movieDetails && <ProgressSpinner />}
     {movieDetails &&
@@ -47,6 +56,9 @@ const MovieDetails = () => {
                   <h1 className='mr-2 my-1'>
                     {movieDetails?.title} {movieDetails?.releaseDate ? `(${new Date(movieDetails.releaseDate).getFullYear()})` : ''}
                   </h1>
+                  {auth.authInfo.authenticated && !movieDetails.isAddedToWatchlist &&
+                    <Button icon="pi pi-bookmark" size='small' rounded severity="secondary" aria-label="Bookmark"
+                      onClick={addToWatchlist}/>}
                 </div>
                 <div className='flex align-items-center'>
                   {movieDetails?.certification &&
