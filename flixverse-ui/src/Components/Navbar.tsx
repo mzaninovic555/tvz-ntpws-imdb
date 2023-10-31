@@ -1,6 +1,6 @@
 import {useNavigate} from 'react-router-dom';
 import {Menubar} from 'primereact/menubar';
-import {MenuItem} from 'primereact/menuitem';
+import {MenuItem, MenuItemCommandEvent} from 'primereact/menuitem';
 import logo from '../assets/logo-navbar.png';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
@@ -17,15 +17,27 @@ const Navbar = () => {
   const menuItems: MenuItem[] = [
     {
       label: 'Home',
-      url: '/'
+      url: '/',
+      command(event: MenuItemCommandEvent) {
+        event.originalEvent?.preventDefault();
+        navigate('/');
+      }
     },
     {
       label: 'Movies',
-      url: '/movies'
+      url: '/movies',
+      command(event: MenuItemCommandEvent) {
+        event.originalEvent?.preventDefault();
+        navigate('/movies');
+      }
     },
     {
       label: 'TV Shows',
-      url: '/tv-shows'
+      url: '/tv-shows',
+      command(event: MenuItemCommandEvent) {
+        event.originalEvent?.preventDefault();
+        navigate('/tv-shows');
+      }
     }
   ];
 

@@ -40,7 +40,7 @@ const BaseSearch = (props: SearchProps) => {
     setLoading(true);
     void fetchGenres();
     fetchByType();
-  }, [page]);
+  }, [page, props.type]);
 
   const fetchByType = () => {
     switch (props.type) {
@@ -48,7 +48,7 @@ const BaseSearch = (props: SearchProps) => {
         void fetchMoviesSearch();
         break;
       case ItemType.Show:
-        void getShowSearch();
+        void fetchShowsSearch();
         break;
     }
   };
@@ -81,7 +81,7 @@ const BaseSearch = (props: SearchProps) => {
     setLoading(false);
   };
 
-  const getShowSearch = async () => {
+  const fetchShowsSearch = async () => {
     const res = await getShowsSearch(page, filterValues).catch(); // TODO: error handling
     if (!res) {
       return;
