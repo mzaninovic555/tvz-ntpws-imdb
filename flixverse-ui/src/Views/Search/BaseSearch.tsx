@@ -143,7 +143,7 @@ const BaseSearch = (props: SearchProps) => {
       <div className="search-item-container mx-2 mb-4 sm:col-4 md:col-3 lg:col-2 pb-2 cursor-pointer shadow-3 border-round"
         onClick={() => naviagateToType(item.id)}>
         <div className="flex flex-column align-items-center">
-          <img className="w-12 shadow-2 border-round" src={item.poster} alt={item.name} />
+          <img className="w-12 shadow-2 border-round-top" src={item.poster} alt={item.name} />
           <h4>{item.name}</h4>
         </div>
       </div>

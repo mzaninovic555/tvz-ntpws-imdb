@@ -45,7 +45,7 @@ const Watchlist = () => {
       {loading && <ProgressSpinner />}
       {!loading &&
         <div className='container'>
-          <DataView itemTemplate={itemTemplate} value={watchlistItems} />
+          <DataView itemTemplate={itemTemplate} value={watchlistItems} title='Your watchlist' />
           <Button className='mr-2' label='Previous page' disabled={page == 0} onClick={() => setPage(page - 1)} />
           <Button label='Next page' onClick={() => setPage(page + 1)} />
         </div>}
