@@ -5,5 +5,5 @@ namespace FlixVerse.Models.Watchlist;
 public class WatchlistRequest
 {
     [Required]
-    public long MovieId { get; set; }
+    public long ItemId { get; set; }
 }

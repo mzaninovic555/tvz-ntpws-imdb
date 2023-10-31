@@ -3,6 +3,7 @@ using FlixVerse.Models.Article;
 using FlixVerse.Models.User;
 using FlixVerse.Models.Watchlist;
 using FlixVerse.Services.Security;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlixVerse.Services;
 
@@ -28,14 +29,21 @@ public class WatchlistService
         return _watchlistRepository.IsAddedToWatchlist(user, itemId, type);
     }
 
-    public bool AddItemToWatchlist(long itemId, ItemType type)
+    public WatchlistResultType AddItemToWatchlist(long itemId, ItemType type)
     {
         User? user = _jwtService.GetUsernameFromContext();
         if (user == null)
         {
-            return false;
+            return WatchlistResultType.NonExistingUser;
+        }
+
+        var isInWatchlist = _watchlistRepository.IsAddedToWatchlist(user, itemId, type);
+        if (isInWatchlist)
+        {
+            return WatchlistResultType.AlreadyInWatchlist;
         }
         _watchlistRepository.Create(new WatchlistItem(itemId, type, user.Id));
-        return true;
+
+        return WatchlistResultType.Added;
     }
 }

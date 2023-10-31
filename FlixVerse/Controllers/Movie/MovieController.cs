@@ -63,13 +63,14 @@ public class MovieController : ControllerBase
     [HttpPost("movie/add-to-watchlist")]
     public IActionResult AddMovieToWatchlist(WatchlistRequest request)
     {
-        bool isItemInWatchlist = _watchlistService.IsItemInWatchlist(request.MovieId, ItemType.Movie);
-        if (isItemInWatchlist)
-        {
-            return BadRequest("Item is already in watchlist");
-        }
+        var res = _watchlistService.AddItemToWatchlist(request.ItemId, ItemType.Movie);
 
-        bool isAdded = _watchlistService.AddItemToWatchlist(request.MovieId, ItemType.Movie);
-        return isAdded ? Ok("Successfully added to watchlist") : Unauthorized("User isn't logged in");
+        return res switch
+        {
+            WatchlistResultType.Added => Ok(new BasicResponse("Successfully added to watchlist")),
+            WatchlistResultType.AlreadyInWatchlist => Conflict(new BasicResponse("Movie is already in your watchlist")),
+            WatchlistResultType.NonExistingUser => BadRequest(new BasicResponse("The requested user doesn't exist")),
+            _ => throw new MissingMethodException()
+        };
     }
 }

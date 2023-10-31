@@ -5,13 +5,19 @@ import {TmdbConst} from '../../common/TmdbConst.ts';
 import CastCarousel from '../../Components/CastCarousel.tsx';
 import '../../common/css/itemDetails.css';
 import {SeriesDetailsType} from './SeriesDetailsType.ts';
-import {getSeriesDetails} from './SeriesDetailsApi.ts';
+import {addShowToWatchlist, getSeriesDetails} from './SeriesDetailsApi.ts';
 import {Button} from 'primereact/button';
 import useAuth from '../../common/context/AuthContext.ts';
+import useToast from '../../common/context/ToastContext.ts';
+import {BasicResponse} from '../../common/response/BasicResponse.ts';
+import {createNewToast} from '../../common/messages/toastUtils.ts';
+import {AxiosError} from 'axios';
 
 const SeriesDetails = () => {
   const [seriesDetails, setSeriesDetails] = useState<SeriesDetailsType>();
+  const [isWatchlistAdded, setIsWatchlistAdded] = useState(true);
   const auth = useAuth();
+  const toast = useToast();
 
   const params = useParams();
 
@@ -30,6 +36,20 @@ const SeriesDetails = () => {
     }
 
     setSeriesDetails(res);
+  };
+
+  const addToWatchlist = async () => {
+    const res = await addShowToWatchlist(seriesDetails!.id).catch(handleError);
+
+    if (!res) {
+      return;
+    }
+    setIsWatchlistAdded(false);
+  };
+
+  const handleError = (error: AxiosError<BasicResponse>) => {
+    const msgs = error.response?.data.message || '';
+    toast.toast?.current?.show(createNewToast(msgs, 'error', true));
   };
 
   return (<>
@@ -53,8 +73,9 @@ const SeriesDetails = () => {
                       ` - ${new Date(seriesDetails.endReleaseDate).getFullYear()})` :
                       ' - )'}
                   </h1>
-                  {auth.authInfo.authenticated && seriesDetails.isAddedToWatchlist &&
-                    <Button icon="pi pi-bookmark" size='small' rounded severity="secondary" aria-label="Bookmark" />}
+                  {auth.authInfo.authenticated && !seriesDetails.isAddedToWatchlist && isWatchlistAdded &&
+                      <Button icon="pi pi-bookmark" size='small' rounded severity="secondary" aria-label="Bookmark"
+                        onClick={addToWatchlist}/>}
                 </div>
                 <div className='flex align-items-center'>
                   {seriesDetails?.certification &&
@@ -97,4 +118,5 @@ const SeriesDetails = () => {
   </>
   );
 };
+
 export default SeriesDetails;
