@@ -42,7 +42,7 @@ public class WatchlistService
         {
             return WatchlistResultType.AlreadyInWatchlist;
         }
-        _watchlistRepository.Create(new WatchlistItem(itemId, type, user.Id));
+        _watchlistRepository.Create(new WatchlistItem(itemId, type, user.Id, WatchlistItemStatus.Waiting));
 
         return WatchlistResultType.Added;
     }

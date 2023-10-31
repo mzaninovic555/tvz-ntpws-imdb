@@ -45,6 +45,7 @@ const SeriesDetails = () => {
       return;
     }
     setIsWatchlistAdded(false);
+    toast.toast?.current?.show(createNewToast(res.message ?? '', 'success', true));
   };
 
   const handleError = (error: AxiosError<BasicResponse>) => {
