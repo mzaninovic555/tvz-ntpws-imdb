@@ -14,6 +14,7 @@ using TMDbLib.Objects.Movies;
 namespace FlixVerse.Controllers.Movie;
 
 [ApiController]
+[Route("movie")]
 public class MovieController : ControllerBase
 {
     private readonly TMDbClient _client;
@@ -24,7 +25,7 @@ public class MovieController : ControllerBase
         _client = new TMDbClient(props.Value.ApiKey);
     }
 
-    [HttpGet("movie/{id?}")]
+    [HttpGet("{id?}")]
     public async Task<IActionResult> GetMovieDetails(string? id)
     {
         var fetchedMovie = await _client.GetMovieAsync(id,
@@ -60,7 +61,7 @@ public class MovieController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("movie/add-to-watchlist")]
+    [HttpPost("add-to-watchlist")]
     public IActionResult AddMovieToWatchlist(WatchlistRequest request)
     {
         var res = _watchlistService.AddItemToWatchlist(request.ItemId, ItemType.Movie);

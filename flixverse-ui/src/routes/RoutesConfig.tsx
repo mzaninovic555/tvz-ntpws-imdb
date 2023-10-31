@@ -6,6 +6,7 @@ import BaseSearch from '../Views/Search/BaseSearch.tsx';
 import ItemType from '../common/enums/ItemType.ts';
 import SeriesDetails from '../Views/SeriesDetails/SeriesDetails.tsx';
 import MovieDetails from '../Views/MovieDetails/MovieDetails.tsx';
+import Watchlist from '../Views/Watchlist/Watchlist.tsx';
 
 const RoutesConfig = () => {
   return (
@@ -21,7 +22,8 @@ const RoutesConfig = () => {
         <Route path='/tv-shows' key='series'>
           <Route index element={<BaseSearch type={ItemType.Show} />} />
           <Route path=':seriesId' element={<SeriesDetails />} />
-        </Route>
+        </Route>,
+        <Route path='/watchlist' element={<Watchlist />} key='watchlist' />
       ]}
 
     </Routes>);
