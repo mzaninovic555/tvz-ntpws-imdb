@@ -15,10 +15,11 @@ public class BaseDetailsResponse
     public string Tagline { get; set; }
     public List<Crew> Crew { get; set; }
     public bool? IsAddedToWatchlist { get; set; }
+    public bool? IsUserReviewed { get; set; }
 
     protected BaseDetailsResponse(int id, string title, List<Genre> genres, string overview,
         string status, string backdropPath, string posterPath, string? certification,
-        string tagline, List<Crew> crew, bool? isAddedToWatchlist)
+        string tagline, List<Crew> crew, bool? isAddedToWatchlist, bool? isUserReviewed)
     {
         Id = id;
         Title = title;
@@ -30,6 +31,7 @@ public class BaseDetailsResponse
         Certification = certification;
         Tagline = tagline;
         Crew = crew;
-        this.IsAddedToWatchlist = isAddedToWatchlist;
+        IsAddedToWatchlist = isAddedToWatchlist;
+        IsUserReviewed = isUserReviewed;
     }
 }

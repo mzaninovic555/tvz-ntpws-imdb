@@ -42,6 +42,8 @@ builder.Services.AddScoped<WatchlistService>();
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<WatchlistRepository>();
+builder.Services.AddScoped<ReviewRepository>();
+
 
 builder.Services.AddHttpContextAccessor();
 

@@ -1,5 +1,6 @@
 ﻿using FlixVerse.Common;
 using FlixVerse.Configuration;
+using FlixVerse.Data;
 using FlixVerse.Models.Article;
 using FlixVerse.Models.Common;
 using FlixVerse.Models.Movies;
@@ -19,9 +20,11 @@ public class MovieController : ControllerBase
 {
     private readonly TMDbClient _client;
     private readonly WatchlistService _watchlistService;
-    public MovieController(IOptions<TmdbProperties> props, WatchlistService watchlistService)
+    private readonly ReviewRepository _reviewRepository;
+    public MovieController(IOptions<TmdbProperties> props, WatchlistService watchlistService, ReviewRepository reviewRepository)
     {
         _watchlistService = watchlistService;
+        _reviewRepository = reviewRepository;
         _client = new TMDbClient(props.Value.ApiKey);
     }
 
@@ -54,7 +57,8 @@ public class MovieController : ControllerBase
             fetchedMovie.Runtime.GetValueOrDefault(-1),
             TmdbUtils.GetWatchProvidersFromMovie(fetchedMovie),
             TmdbUtils.GetTopCastFromMovie(fetchedMovie),
-            _watchlistService.IsItemInWatchlist(fetchedMovie.Id, ItemType.Movie)
+            _watchlistService.IsItemInWatchlist(fetchedMovie.Id, ItemType.Movie),
+            _reviewRepository.HasUserReviewedByItemId(fetchedMovie.Id, ItemType.Movie)
         );
 
         return Ok(movieResponse);

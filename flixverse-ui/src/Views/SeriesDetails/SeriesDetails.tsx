@@ -88,7 +88,7 @@ const SeriesDetails = () => {
                   {seriesDetails?.startReleaseDate && <h5>{new Date(seriesDetails?.startReleaseDate).toLocaleDateString()}</h5>}
                   <i className='divider-icon pi pi-circle-on'/>
                   {seriesDetails.genres.map((genre, i) =>
-                    <h5 key={genre.id}>{genre.name}{ i < seriesDetails.genres.length - 1 ? ', ' : ''}</h5>)}
+                    <h5>{genre.name}{ i < seriesDetails.genres.length - 1 ? ', ' : ''}</h5>)}
                   <i className='divider-icon pi pi-circle-on'/>
                   {seriesDetails?.numberOfSeasons && <h5>{seriesDetails.numberOfSeasons} seasons</h5>}
                 </div>
@@ -103,7 +103,7 @@ const SeriesDetails = () => {
               {seriesDetails.crew &&
                 <div className='flex mt-3'>
                   {seriesDetails.crew.map((crew) =>
-                    <div className='flex flex-column mr-4' key={crew.id}>
+                    <div className='flex flex-column mr-4'>
                       <h4 className='my-0'>{crew.name}</h4>
                       <h5 className='font-italic font-light'>{crew.job}</h5>
                     </div>)

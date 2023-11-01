@@ -13,5 +13,6 @@ export type BaseDetailsType = {
   tagline: string,
   crew?: CrewType[],
   cast?: CrewType[],
-  isAddedToWatchlist?: boolean
+  isAddedToWatchlist?: boolean,
+  isUserReviewed?: boolean
 };

@@ -27,8 +27,9 @@ public class MovieDetailsResponse : BaseDetailsResponse
         int? runtime,
         List<WatchProviderItem>? streamProviders,
         List<Cast> cast,
-        bool? isAddedToWatchlist) : base(id, title, genres, overview, status, backdropPath, posterPath, certification,
-                                tagline, crew, isAddedToWatchlist)
+        bool? isAddedToWatchlist,
+        bool? isUserReviewed) : base(id, title, genres, overview, status, backdropPath, posterPath, certification,
+                                tagline, crew, isAddedToWatchlist, isUserReviewed)
     {
         ReleaseDate = releaseDate;
         Runtime = runtime;

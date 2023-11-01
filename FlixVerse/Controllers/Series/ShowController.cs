@@ -1,5 +1,6 @@
 ﻿using FlixVerse.Common;
 using FlixVerse.Configuration;
+using FlixVerse.Data;
 using FlixVerse.Models.Article;
 using FlixVerse.Models.Common;
 using FlixVerse.Models.Series;
@@ -18,15 +19,18 @@ public class ShowController : ControllerBase
 {
     private readonly TMDbClient _client;
     private readonly WatchlistService _watchlistService;
-    public ShowController(IOptions<TmdbProperties> props, WatchlistService watchlistService)
+    private readonly ReviewRepository _reviewRepository;
+    public ShowController(IOptions<TmdbProperties> props, WatchlistService watchlistService, ReviewRepository reviewRepository)
     {
         _watchlistService = watchlistService;
+        _reviewRepository = reviewRepository;
         _client = new TMDbClient(props.Value.ApiKey);
     }
 
     [HttpGet("series/{id?}")]
     public async Task<IActionResult> GetSeriesDetails(string? id)
     {
+        var a = HttpContext.User.Identity;
         var fetchedSeries = await _client.GetTvShowAsync(int.Parse(id),
             TvShowMethods.WatchProviders
             | TvShowMethods.Recommendations
@@ -53,7 +57,8 @@ public class ShowController : ControllerBase
             TmdbUtils.GetWatchProvidersFromSeries(fetchedSeries),
             TmdbUtils.GetTopCastFromSeries(fetchedSeries),
             fetchedSeries.NumberOfSeasons,
-            _watchlistService.IsItemInWatchlist(fetchedSeries.Id, ItemType.Show)
+            _watchlistService.IsItemInWatchlist(fetchedSeries.Id, ItemType.Show),
+            _reviewRepository.HasUserReviewedByItemId(fetchedSeries.Id, ItemType.Show)
         );
 
         return Ok(showResponse);

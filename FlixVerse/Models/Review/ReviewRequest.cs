@@ -15,9 +15,6 @@ public class ReviewRequest
     public string Text { get; set; }
 
     [Required]
-    [Range(minimum: 1, maximum: 5)]
+    [Range(minimum: 0, maximum: 6)]
     public int Grade { get; set; }
-
-    [Required]
-    public int UserId { get; set; }
 }
