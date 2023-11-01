@@ -161,7 +161,7 @@ const Watchlist = (props: WatchlistItemType) => {
             <h2 className='text-primary-900'>{props.type == 'inProgress' ? 'Your watchlist' : 'Your completed list'}</h2>
             <DataView value={watchlistItems} itemTemplate={props.type == 'inProgress' ? inProgressTemplate : completedTemplate} layout='grid' />
             <Button className='w-2 mb-4 mr-2' label='Load previous' disabled={loading || page == 0} onClick={() => setPage(page - 1)} />
-            <Button className='w-2 mb-4' label='Load next' disabled={loading || watchlistItems.length == 0} onClick={() => setPage(page + 1)} />
+            <Button className='w-2 mb-4' label='Load next' disabled={loading || watchlistItems.length < 5} onClick={() => setPage(page + 1)} />
           </div>
       }
     </>
