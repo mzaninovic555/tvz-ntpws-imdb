@@ -90,7 +90,7 @@ const BaseSearch = (props: SearchProps) => {
     setLoading(false);
   };
 
-  const naviagateToType = (movieId: number) => {
+  const naviagateToType = (itemId: number) => {
     let prefix = '';
     switch (props.type) {
       case ItemType.Movie:
@@ -100,7 +100,7 @@ const BaseSearch = (props: SearchProps) => {
         prefix = 'tv-shows';
         break;
     }
-    navigate(`/${prefix}/${movieId}`);
+    navigate(`/${prefix}/${itemId}`);
   };
 
   const loadPrevious = () => {

@@ -26,6 +26,15 @@ public class WatchlistItem
 
     public virtual User.User? User { get; set; }
 
+    public WatchlistItem(long id, long itemId, ItemType type, long userId, WatchlistItemStatus status)
+    {
+        Id = id;
+        ItemId = itemId;
+        Type = type;
+        UserId = userId;
+        Status = status;
+    }
+
     public WatchlistItem(long itemId, ItemType type, long userId, WatchlistItemStatus status)
     {
         ItemId = itemId;

@@ -23,7 +23,8 @@ const RoutesConfig = () => {
           <Route index element={<BaseSearch type={ItemType.Show} />} />
           <Route path=':seriesId' element={<SeriesDetails />} />
         </Route>,
-        <Route path='/watchlist' element={<Watchlist />} key='watchlist' />
+        <Route path='/watchlist' element={<Watchlist type='inProgress' />} key='watchlist' />,
+        <Route path='/completed' element={<Watchlist type='completed' />} key='completed' />
       ]}
 
     </Routes>);

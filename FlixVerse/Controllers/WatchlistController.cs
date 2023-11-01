@@ -1,12 +1,9 @@
-﻿using FlixVerse.Configuration;
-using FlixVerse.Data;
-using FlixVerse.Models.Article;
+﻿using FlixVerse.Data;
+using FlixVerse.Models.Common;
 using FlixVerse.Models.Watchlist;
-using FlixVerse.Services.Security;
+using FlixVerse.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using TMDbLib.Client;
 
 namespace FlixVerse.Controllers;
 
@@ -16,51 +13,49 @@ namespace FlixVerse.Controllers;
 public class WatchlistController : ControllerBase
 {
     private readonly WatchlistRepository _watchlistRepository;
-    private readonly TMDbClient _client;
-    private readonly JwtService _jwtService;
+    private readonly WatchlistService _watchlistService;
 
-    public WatchlistController(IOptions<TmdbProperties> props, WatchlistRepository watchlistRepository, JwtService jwtService)
+    public WatchlistController(WatchlistRepository watchlistRepository, WatchlistService watchlistService)
     {
         _watchlistRepository = watchlistRepository;
-        _jwtService = jwtService;
-        _client = new TMDbClient(props.Value.ApiKey);
+        _watchlistService = watchlistService;
     }
 
     [HttpGet]
-    public IActionResult GetWatchlistItems(int page)
+    public IActionResult GetWatchlistItemsInProgress(int page)
     {
-        var user = _jwtService.GetUsernameFromContext();
-        var watchlistItems = _watchlistRepository.GetWatchlistItemsByPage(page, user!.Id);
-
-        var res = watchlistItems
-            .Where(item => item.Type == ItemType.Show)
-            .Select(async item => await _client.GetTvShowAsync((int)item.ItemId))
-            .Select(item => new UserWatchlistResponse(
-                item.Result.Name,
-                item.Result.PosterPath,
-                new WatchlistItem(
-                    item.Result.Id,
-                    ItemType.Show,
-                    user!.Id,
-                    watchlistItems.First(wi => wi.ItemId == item.Result.Id).Status
-                )
-            )).ToList();
-
-        var movies = watchlistItems
-            .Where(watchlistItem => watchlistItem.Type == ItemType.Movie)
-            .Select(async watchlistItem => await _client.GetMovieAsync((int)watchlistItem.ItemId))
-            .Select(movie => new UserWatchlistResponse(
-                movie.Result.Title,
-                movie.Result.PosterPath,
-                new WatchlistItem(
-                    movie.Result.Id,
-                    ItemType.Show,
-                    user!.Id,
-                    watchlistItems.First(wi => wi.ItemId == movie.Result.Id).Status
-                )
-            )).ToList();
-
-        res.AddRange(movies);
+        var res = _watchlistService.GetItemsForWatchlistByStatusAndPage(page, WatchlistItemStatus.Waiting);
         return Ok(res);
+    }
+
+    [HttpGet("completed")]
+    public IActionResult GetWatchlistItemsCompleted(int page)
+    {
+        var res = _watchlistService.GetItemsForWatchlistByStatusAndPage(page, WatchlistItemStatus.Completed);
+        return Ok(res);
+    }
+
+    [HttpPost("set-complete")]
+    public IActionResult CompleteEntry(WatchlistRequest request)
+    {
+        return _watchlistRepository.CompleteEntryById(request.ItemId)
+            ? Ok(new BasicResponse("Item set to completed"))
+            : BadRequest(new BasicResponse("Item wasn't found in watchlist"));
+    }
+
+    [HttpPost("remove")]
+    public IActionResult RemoveEntry(WatchlistRequest request)
+    {
+        return _watchlistRepository.RemoveEntryById(request.ItemId)
+            ? Ok(new BasicResponse("Item removed from watchlist"))
+            : BadRequest(new BasicResponse("Item wasn't found in watchlist"));
+    }
+
+    [HttpPost("set-watching")]
+    public IActionResult SetWatching(WatchlistRequest request)
+    {
+        return _watchlistRepository.SetToWatchingById(request.ItemId)
+            ? Ok(new BasicResponse("Item set to in progress"))
+            : BadRequest(new BasicResponse("Item wasn't found in watchlist"));
     }
 }

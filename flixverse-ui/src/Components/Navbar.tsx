@@ -54,12 +54,29 @@ const Navbar = () => {
         {
           label: 'Settings',
           icon: 'pi pi-cog',
-          url: '/settings'
+          url: '/settings',
+          command(event: MenuItemCommandEvent) {
+            event.originalEvent?.preventDefault();
+            navigate('/settings');
+          }
         },
         {
           label: 'Watchlist',
           icon: 'pi pi-bookmark',
-          url: '/watchlist'
+          url: '/watchlist',
+          command(event: MenuItemCommandEvent) {
+            event.originalEvent?.preventDefault();
+            navigate('/watchlist');
+          }
+        },
+        {
+          label: 'Completed',
+          icon: 'pi pi-check-square',
+          url: '/completed',
+          command(event: MenuItemCommandEvent) {
+            event.originalEvent?.preventDefault();
+            navigate('/completed');
+          }
         },
         {
           label: 'Logout',

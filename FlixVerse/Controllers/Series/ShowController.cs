@@ -34,7 +34,7 @@ public class ShowController : ControllerBase
 
         if (fetchedSeries == null)
         {
-            return NotFound(new BasicResponse("The requested movie wasn't found."));
+            return NotFound(new BasicResponse("The requested show wasn't found."));
         }
 
         var showResponse = new SeriesDetailsResponse(
