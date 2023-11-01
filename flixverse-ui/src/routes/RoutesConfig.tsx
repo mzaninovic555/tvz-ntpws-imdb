@@ -19,7 +19,7 @@ const RoutesConfig = () => {
           <Route index element={<BaseSearch type={ItemType.Movie} />} />
           <Route path=':movieId' element={<MovieDetails />} />
         </Route>,
-        <Route path='/tv-shows' key='series'>
+        <Route path='/tv-shows' key='shows'>
           <Route index element={<BaseSearch type={ItemType.Show} />} />
           <Route path=':seriesId' element={<SeriesDetails />} />
         </Route>,

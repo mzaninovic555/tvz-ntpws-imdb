@@ -1,8 +1,8 @@
 
 enum ItemType {
-  Movie,
-  Show,
-  Person
+  Movie = 'Movie',
+  Show = 'Show',
+  Person = 'Person'
 }
 
 export default ItemType;

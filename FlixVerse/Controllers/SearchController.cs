@@ -87,4 +87,34 @@ public class SearchController : ControllerBase
 
         return Ok(showResults);
     }
+
+    [HttpGet("/movies/search-by-title")]
+    public async Task<IActionResult> GetMoviesSearchByTitle([FromQuery]SearchByTermModel query)
+    {
+        var fetchedMovies = await _client.SearchMovieAsync(query.SearchTerm, query.Page);
+        var showResults = fetchedMovies.Results
+            .Select(res => new GenericItemResponse(
+                res.Id,
+                res.Title,
+                TmdbUtils.GetImageUrl(res.PosterPath),
+                ItemType.Movie))
+            .ToList();
+
+        return Ok(showResults);
+    }
+
+    [HttpGet("/tv-shows/search-by-title")]
+    public async Task<IActionResult> GetTvShowsSearchByTitle([FromQuery]SearchByTermModel query)
+    {
+        var fetchedMovies = await _client.SearchTvShowAsync(query.SearchTerm, query.Page);
+        var showResults = fetchedMovies.Results
+            .Select(res => new GenericItemResponse(
+                res.Id,
+                res.Name,
+                TmdbUtils.GetImageUrl(res.PosterPath),
+                ItemType.Movie))
+            .ToList();
+
+        return Ok(showResults);
+    }
 }

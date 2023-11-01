@@ -81,15 +81,29 @@ const Home = () => {
 
   const carouselItemTemplate = (type: ItemType, item: GenericItemResponse) => {
     return (
-      <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3'
-        onClick={() => naviagateToType(type, item.id)}>
-        <div>
-          <img src={`${item.poster}`} alt={item.name} className="carousel-image" />
-        </div>
-        <div>
-          <h4 className="text-primary text-overflow-ellipsis">{item.name}</h4>
-        </div>
-      </div>
+      <>
+        {type != ItemType.Person &&
+          <div className='border-1 surface-border m-2 cursor-pointer carousel-item text-center pb-3'
+            onClick={() => naviagateToType(type, item.id)}>
+            <div>
+              <img src={`${item.poster}`} alt={item.name} className="carousel-image" />
+            </div>
+            <div>
+              <h4 className="text-primary text-overflow-ellipsis">{item.name}</h4>
+            </div>
+          </div>
+        }
+        {type == ItemType.Person &&
+          <div className='border-1 surface-border m-2 text-center pb-3'>
+            <div>
+              <img src={`${item.poster}`} alt={item.name} className="carousel-image" />
+            </div>
+            <div>
+              <h4 className="text-primary text-overflow-ellipsis">{item.name}</h4>
+            </div>
+          </div>
+        }
+      </>
     );
   };
 

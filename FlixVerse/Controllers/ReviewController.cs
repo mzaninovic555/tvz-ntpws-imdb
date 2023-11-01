@@ -1,6 +1,7 @@
 ﻿using FlixVerse.Data;
 using FlixVerse.Data.Context;
 using FlixVerse.Models.Article;
+using FlixVerse.Models.Common;
 using FlixVerse.Models.Review;
 using FlixVerse.Services.Security;
 using Microsoft.AspNetCore.Authorization;
@@ -73,6 +74,6 @@ public class ReviewController : ControllerBase
         }
 
         _reviewRepository.Create(newReview);
-        return Ok();
+        return Ok(new BasicResponse("Review added"));
     }
 }

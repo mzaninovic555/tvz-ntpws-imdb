@@ -15,6 +15,7 @@ using TMDbLib.Objects.TvShows;
 namespace FlixVerse.Controllers.Series;
 
 [ApiController]
+[Route("show")]
 public class ShowController : ControllerBase
 {
     private readonly TMDbClient _client;
@@ -27,7 +28,7 @@ public class ShowController : ControllerBase
         _client = new TMDbClient(props.Value.ApiKey);
     }
 
-    [HttpGet("series/{id?}")]
+    [HttpGet("{id?}")]
     public async Task<IActionResult> GetSeriesDetails(string? id)
     {
         var a = HttpContext.User.Identity;
@@ -65,7 +66,7 @@ public class ShowController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("show/add-to-watchlist")]
+    [HttpPost("add-to-watchlist")]
     public IActionResult AddMovieToWatchlist(WatchlistRequest request)
     {
         var res = _watchlistService.AddItemToWatchlist(request.ItemId, ItemType.Show);

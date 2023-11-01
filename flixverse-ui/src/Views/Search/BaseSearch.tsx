@@ -1,9 +1,9 @@
 import ItemType from '../../common/enums/ItemType.ts';
 import {DataView} from 'primereact/dataview';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {GenericItemResponse} from '../../common/response/GenericItemResponse.ts';
-import {getMoviesSearch, getShowsSearch} from './SearchApi.ts';
-import {useNavigate} from 'react-router-dom';
+import {getBySearchTerm, getFiltered} from './SearchApi.ts';
+import {useLocation, useNavigate} from 'react-router-dom';
 import './search.css';
 import {Button} from 'primereact/button';
 import {ProgressSpinner} from 'primereact/progressspinner';
@@ -34,23 +34,40 @@ const BaseSearch = (props: SearchProps) => {
     genres: []
   });
 
+  const isLoadedBySearchTerm = useRef<boolean>();
+  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     void fetchGenres();
-    fetchByType();
+
+    const searchTerm = location.state as string | undefined | null;
+    if (!searchTerm || searchTerm === '') {
+      isLoadedBySearchTerm.current = false;
+      void fetchByType();
+    } else {
+      isLoadedBySearchTerm.current = true;
+      void fetchByTypeWithSearchTerm(searchTerm);
+    }
   }, [page, props.type]);
 
-  const fetchByType = () => {
-    switch (props.type) {
-      case ItemType.Movie:
-        void fetchMoviesSearch();
-        break;
-      case ItemType.Show:
-        void fetchShowsSearch();
-        break;
+  const fetchByType = async () => {
+    const res = await getFiltered(props.type, page, filterValues).catch(); // TODO: error handling
+    if (!res) {
+      return;
     }
+    setSearchItems(res);
+    setLoading(false);
+  };
+
+  const fetchByTypeWithSearchTerm = async (searchTerm: string) => {
+    const res = await getBySearchTerm(props.type, page, searchTerm).catch(); // TODO: error handling
+    if (!res) {
+      return;
+    }
+    setSearchItems(res);
+    setLoading(false);
   };
 
   const clearFilters = () => {
@@ -59,7 +76,7 @@ const BaseSearch = (props: SearchProps) => {
       releaseDateTo: undefined,
       genres: []
     });
-    fetchByType();
+    void fetchByType();
   };
 
   const fetchGenres = async () => {
@@ -70,24 +87,6 @@ const BaseSearch = (props: SearchProps) => {
       return;
     }
     setAvailableGenres(res);
-  };
-
-  const fetchMoviesSearch = async () => {
-    const res = await getMoviesSearch(page, filterValues).catch(); // TODO: error handling
-    if (!res) {
-      return;
-    }
-    setSearchItems(res);
-    setLoading(false);
-  };
-
-  const fetchShowsSearch = async () => {
-    const res = await getShowsSearch(page, filterValues).catch(); // TODO: error handling
-    if (!res) {
-      return;
-    }
-    setSearchItems(res);
-    setLoading(false);
   };
 
   const naviagateToType = (itemId: number) => {
@@ -156,16 +155,18 @@ const BaseSearch = (props: SearchProps) => {
       {loading && <ProgressSpinner />}
       {searchItems && !loading &&
         <div className='container'>
-          <div className='flex justify-content-center mb-4'>
-            <Calendar value={filterValues.releaseDateFrom} onChange={(e) => setFromDate(e.value)}
-              className='mr-2' placeholder='From date' showIcon />
-            <Calendar value={filterValues.releaseDateTo} onChange={(e) => setToDate(e.value)}
-              className='mr-2' placeholder='To date' showIcon />
-            <MultiSelect placeholder='Filter by genre' className='mr-2 w-2' options={availableGenres} value={filterValues.genres}
-              optionLabel='name' onChange={(e: MultiSelectChangeEvent) => setFilterGenre(e.value)} filter />
-            <Button label='Search' className='mr-2' onClick={fetchByType} />
-            <Button label='Clear' onClick={clearFilters} />
-          </div>
+          {!isLoadedBySearchTerm &&
+            <div className='flex justify-content-center mb-4'>
+              <Calendar value={filterValues.releaseDateFrom} onChange={(e) => setFromDate(e.value)}
+                className='mr-2' placeholder='From date' showIcon />
+              <Calendar value={filterValues.releaseDateTo} onChange={(e) => setToDate(e.value)}
+                className='mr-2' placeholder='To date' showIcon />
+              <MultiSelect placeholder='Filter by genre' className='mr-2 w-2' options={availableGenres} value={filterValues.genres}
+                optionLabel='name' onChange={(e: MultiSelectChangeEvent) => setFilterGenre(e.value)} filter />
+              <Button label='Search' className='mr-2' onClick={fetchByType} />
+              <Button label='Clear' onClick={clearFilters} />
+            </div>
+          }
           <DataView value={searchItems} itemTemplate={searchItemTemplate} layout='grid' />
           <div>
             <Button className='w-2 mb-4 mr-2' label='Load previous' disabled={loading || page == 1} onClick={loadPrevious} />

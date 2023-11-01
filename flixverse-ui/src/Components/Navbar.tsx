@@ -8,8 +8,15 @@ import useAuth from '../common/context/AuthContext.ts';
 import './navbar.css';
 import useToast from '../common/context/ToastContext.ts';
 import {createNewToast} from '../common/messages/toastUtils.ts';
+import {Dropdown} from 'primereact/dropdown';
+import {useState} from 'react';
+import ItemType from '../common/enums/ItemType.ts';
 
 const Navbar = () => {
+  const searchTypes = [ItemType.Movie, ItemType.Show];
+  const [selectedType, setSelectedType] = useState(ItemType.Movie);
+  const [searchTerm, setSearchTerm] = useState('');
+
   const navigate = useNavigate();
   const auth = useAuth();
   const {toast} = useToast();
@@ -86,6 +93,14 @@ const Navbar = () => {
     }
   ];
 
+  const searchForItemByType = () => {
+    if (!selectedType || !searchTerm || searchTerm === '') {
+      return;
+    }
+    const prefix = selectedType === ItemType.Movie ? '/movies' : 'tv-shows';
+    navigate(prefix, {state: searchTerm});
+  };
+
   const authDiv = (
     <>
       {auth.authInfo.authenticated && <>
@@ -109,15 +124,24 @@ const Navbar = () => {
   );
 
   const end = (
-    <div className={'flex min-w-min flixverse-menubar-end'}>
-      <InputText placeholder='Search' type='text' className='w-full ml-2 mr-2' />
+    <div className={'flex min-w-min w-10 ml-auto flixverse-menubar-end'}>
+      <Dropdown value={selectedType} options={searchTypes}
+        style={{borderRight: 'none', borderTopRightRadius: 'unset', borderBottomRightRadius: 'unset'}}
+        onChange={(e) => setSelectedType(e.value as ItemType)} />
+      <InputText placeholder='Search' type='text' className='w-full'
+        value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+        style={{borderTopLeftRadius: 'unset', borderBottomLeftRadius: 'unset',
+          borderTopRightRadius: 'unset', borderBottomRightRadius: 'unset'}} />
+      <Button severity='warning' className='mr-2 px-4' icon='pi pi-search'
+        style={{borderTopLeftRadius: 'unset', borderBottomLeftRadius: 'unset'}}
+        onClick={searchForItemByType}/>
       {authDiv}
     </div>
   );
 
   return (
     <nav className={'border-noround-top mt-0'}>
-      <div className='container'>
+      <div className='container-70'>
         <Menubar model={menuItems} start={start} end={end} className='border-none p-0' />
       </div>
     </nav>

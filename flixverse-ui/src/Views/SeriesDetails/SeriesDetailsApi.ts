@@ -3,7 +3,7 @@ import {SeriesDetailsType} from './SeriesDetailsType.ts';
 import {BasicResponse} from '../../common/response/BasicResponse.ts';
 
 export async function getSeriesDetails(seriesId: string): Promise<SeriesDetailsType> {
-  const response = await api.get<SeriesDetailsType>(`/series/${seriesId}`);
+  const response = await api.get<SeriesDetailsType>(`/show/${seriesId}`);
   return response?.data;
 }
 
