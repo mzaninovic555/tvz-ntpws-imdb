@@ -33,10 +33,10 @@ const AuthWrapper = (props: JSXChildrenProps) => {
     const extracted = extractJwtData(token);
     if (!token) {
       cookies.remove('flixverse-jwt-token');
-      api.defaults.headers.common['Authorizationj'] = undefined;
+      api.defaults.headers.common['Authorization'] = undefined;
     } else {
       cookies.set('flixverse-jwt-token', token, {expires: new Date(extracted!.exp * 1000)});
-      api.defaults.headers.common['Authorizationj'] = `Bearer ${token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
     setToken(token);
   };
