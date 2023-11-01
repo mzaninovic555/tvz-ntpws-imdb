@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {TmdbConst} from '../../common/TmdbConst.ts';
@@ -12,16 +12,29 @@ import useToast from '../../common/context/ToastContext.ts';
 import {BasicResponse} from '../../common/response/BasicResponse.ts';
 import {createNewToast} from '../../common/messages/toastUtils.ts';
 import {AxiosError} from 'axios';
+import {ReviewRequest} from '../../Components/Review/ReviewRequest.ts';
+import ItemType from '../../common/enums/ItemType.ts';
+import {addNewReview} from '../../Components/Review/ReviewApi.ts';
+import {Dialog} from 'primereact/dialog';
+import {Rating, RatingChangeEvent} from 'primereact/rating';
+import {InputTextarea} from 'primereact/inputtextarea';
+import Review from '../../Components/Review/Review.tsx';
 
 const SeriesDetails = () => {
   const [seriesDetails, setSeriesDetails] = useState<SeriesDetailsType>();
   const [isWatchlistAdded, setIsWatchlistAdded] = useState(true);
   const auth = useAuth();
   const toast = useToast();
+  const [reviewAdded, setReviewAdded] = useState(false);
+  const [reviewModalVisible, setReviewModalVisible] = useState(false);
+
+  const [newReviewGrade, setNewReviewGrade] = useState<number>();
+  const [newReviewText, setNewReviewText] = useState<string>();
+
 
   const params = useParams();
 
-  useEffect(() => void fetchSeriesDetails(), []);
+  useEffect(() => void fetchSeriesDetails(), [reviewAdded]);
 
   const fetchSeriesDetails = async () => {
     const seriesId = params.seriesId;
@@ -48,6 +61,26 @@ const SeriesDetails = () => {
     toast.toast?.current?.show(createNewToast(res.message ?? '', 'success', true));
   };
 
+  const createNewReview = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!newReviewText || !newReviewGrade) {
+      return;
+    }
+    const request: ReviewRequest = {
+      itemId: seriesDetails!.id,
+      itemType: ItemType.Show,
+      text: newReviewText,
+      grade: newReviewGrade
+    };
+
+    const res = await addNewReview(request).catch(handleError);
+    if (!res) {
+      return;
+    }
+    toast.toast?.current?.show(createNewToast(res.message || 'Added review', 'success', true));
+    setReviewAdded(true);
+  };
+
   const handleError = (error: AxiosError<BasicResponse>) => {
     const msgs = error.response?.data.message || '';
     toast.toast?.current?.show(createNewToast(msgs, 'error', true));
@@ -57,6 +90,16 @@ const SeriesDetails = () => {
     {!seriesDetails && <ProgressSpinner />}
     {seriesDetails &&
       <main>
+        <Dialog header="Create new review" visible={reviewModalVisible} style={{width: '30vw'}}
+          onHide={() => setReviewModalVisible(false)}>
+          <form onSubmit={(e) => createNewReview(e)}>
+            <Rating value={newReviewGrade} required className='mb-2'
+              onChange={(e : RatingChangeEvent) => setNewReviewGrade(e.value)} cancel={false} />
+            <InputTextarea className='mb-2' rows={5} cols={40} value={newReviewText} required
+              onChange={(e) => setNewReviewText(e.target.value)} />
+            <Button type={'submit'} label='Create review' />
+          </form>
+        </Dialog>
         <section className='cover-container flex justify-content-center align-items-center'
           style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
                        url(${TmdbConst.TMDB_IMAGE_PREFIX_URL}${seriesDetails?.backdropPath})`,
@@ -75,8 +118,14 @@ const SeriesDetails = () => {
                       ' - )'}
                   </h1>
                   {auth.authInfo.authenticated && !seriesDetails.isAddedToWatchlist && isWatchlistAdded &&
-                      <Button icon="pi pi-bookmark" size='small' rounded severity="secondary" aria-label="Bookmark"
-                        onClick={addToWatchlist}/>}
+                      <>
+                        <Button icon="pi pi-bookmark" size='small' rounded severity="secondary" aria-label="Bookmark"
+                          className='mr-2' onClick={addToWatchlist}/>
+                      </>}
+                  {auth.authInfo.authenticated && !seriesDetails.isUserReviewed &&
+                      <Button icon="pi pi-pencil" size='small' rounded severity="help" aria-label="Bookmark"
+                        onClick={() => setReviewModalVisible(true)}/>
+                  }
                 </div>
                 <div className='flex align-items-center'>
                   {seriesDetails?.certification &&
@@ -88,7 +137,7 @@ const SeriesDetails = () => {
                   {seriesDetails?.startReleaseDate && <h5>{new Date(seriesDetails?.startReleaseDate).toLocaleDateString()}</h5>}
                   <i className='divider-icon pi pi-circle-on'/>
                   {seriesDetails.genres.map((genre, i) =>
-                    <h5>{genre.name}{ i < seriesDetails.genres.length - 1 ? ', ' : ''}</h5>)}
+                    <h5 key={genre.name + i}>{genre.name}{ i < seriesDetails.genres.length - 1 ? ', ' : ''}</h5>)}
                   <i className='divider-icon pi pi-circle-on'/>
                   {seriesDetails?.numberOfSeasons && <h5>{seriesDetails.numberOfSeasons} seasons</h5>}
                 </div>
@@ -103,7 +152,7 @@ const SeriesDetails = () => {
               {seriesDetails.crew &&
                 <div className='flex mt-3'>
                   {seriesDetails.crew.map((crew) =>
-                    <div className='flex flex-column mr-4'>
+                    <div key={crew.name + crew.id + crew.job} className='flex flex-column mr-4'>
                       <h4 className='my-0'>{crew.name}</h4>
                       <h5 className='font-italic font-light'>{crew.job}</h5>
                     </div>)
@@ -114,6 +163,7 @@ const SeriesDetails = () => {
           </div>
         </section>
         <CastCarousel cast={seriesDetails.cast} />
+        <Review itemId={seriesDetails.id} itemType={ItemType.Movie} />
       </main>
     }
   </>
