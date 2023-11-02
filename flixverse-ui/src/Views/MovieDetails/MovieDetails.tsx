@@ -143,6 +143,16 @@ const MovieDetails = () => {
                       <h5>{`${movieDetails.runtime}min`}</h5>
                     </>
                   }
+                  {movieDetails.streamProviders && movieDetails.streamProviders.length &&
+                    <>
+                      <i className='divider-icon pi pi-circle-on'/>
+                      <h5>Streaming on: </h5>
+                      <h5>{
+                        movieDetails.streamProviders.map((provider, i) =>
+                          i == movieDetails.streamProviders.length - 1 ? provider.providerName : provider.providerName + ', '
+                        )}</h5>
+                    </>
+                  }
                 </div>
               </div>
               {movieDetails.overview &&

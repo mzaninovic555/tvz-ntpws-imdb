@@ -142,6 +142,16 @@ const SeriesDetails = () => {
                     <h5 key={genre.name + i}>{genre.name}{ i < seriesDetails.genres.length - 1 ? ', ' : ''}</h5>)}
                   <i className='divider-icon pi pi-circle-on'/>
                   {seriesDetails?.numberOfSeasons && <h5>{seriesDetails.numberOfSeasons} seasons</h5>}
+                  {seriesDetails.streamProviders && seriesDetails.streamProviders.length &&
+                      <>
+                        <i className='divider-icon pi pi-circle-on'/>
+                        <h5>Streaming on: </h5>
+                        <h5>{
+                          seriesDetails.streamProviders.map((provider, i) =>
+                            i == seriesDetails.streamProviders.length - 1 ? provider.providerName : provider.providerName + ', '
+                          )}</h5>
+                      </>
+                  }
                 </div>
               </div>
               {seriesDetails.overview &&

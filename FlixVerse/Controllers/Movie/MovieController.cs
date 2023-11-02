@@ -42,6 +42,7 @@ public class MovieController : ControllerBase
             return NotFound(new BasicResponse("The requested movie wasn't found."));
         }
 
+
         var movieResponse = new MovieDetailsResponse(
             fetchedMovie.Id,
             fetchedMovie.Title,
