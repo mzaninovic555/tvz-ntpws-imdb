@@ -18,3 +18,12 @@ export async function addNewReview(request: ReviewRequest): Promise<BasicRespons
   const response = await api.post<BasicResponse>(`/reviews`, {...request});
   return response?.data;
 }
+
+export async function getReviewAverageForItem(itemId: number, itemType: ItemType): Promise<number> {
+  const url = new URLSearchParams();
+  url.set('itemId', itemId.toString());
+  url.set('type', itemType.toString());
+
+  const response = await api.get<number>(`/reviews/score?${url.toString()}`);
+  return response?.data;
+}

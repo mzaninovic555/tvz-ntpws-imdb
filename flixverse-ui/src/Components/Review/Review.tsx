@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {ReviewResponse} from './ReviewResponse.ts';
-import {getReviewsForItem} from './ReviewApi.ts';
+import {getReviewAverageForItem, getReviewsForItem} from './ReviewApi.ts';
 import ItemType from '../../common/enums/ItemType.ts';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {Button} from 'primereact/button';
@@ -17,9 +17,11 @@ const Review = (props: ReviewProps) => {
   const [reviews, setReviews] = useState<ReviewResponse[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [score, setScore] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     void fetchReviews();
+    void fetchScore();
   }, [page, props.itemId]);
 
   const fetchReviews = async () => {
@@ -30,6 +32,14 @@ const Review = (props: ReviewProps) => {
     }
     setReviews(res);
     setLoading(false);
+  };
+
+  const fetchScore = async () => {
+    const res = await getReviewAverageForItem(props.itemId, props.itemType);
+    if (!res) {
+      return;
+    }
+    setScore(res);
   };
 
   const headerTemplate = (review: ReviewResponse) => {
@@ -48,16 +58,19 @@ const Review = (props: ReviewProps) => {
       {!loading && reviews.length == 0 && <h2 className='text-primary-900'>No reviews found</h2> }
       {!loading && reviews.length > 0 &&
         <div className='container-70'>
-          <h2 className='text-primary-900'>Reviews</h2>
-          <Accordion activeIndex={0} multiple className='mb-2 text-left'>
+          <div className='flex mb-2'>
+            <h2 className='text-primary-900 pr-4 mr-4 border-right-1'>Reviews</h2>
+            <Rating value={score} cancel={false} readOnly />
+          </div>
+          <Accordion activeIndex={[0]} multiple className='mb-2 text-left'>
             {reviews.map((review, i) =>
               <AccordionTab key={review.id + review.authorUsername + i} header={headerTemplate(review)}>
                 <Markdown>{review.text}</Markdown>
               </AccordionTab>
             )}
           </Accordion>
-          <Button className='w-2 mb-4 mr-2' label='Load previous' disabled={loading || page == 0} onClick={() => setPage(page - 1)} />
-          <Button className='w-2 mb-4' label='Load next' disabled={loading || reviews.length < 10} onClick={() => setPage(page + 1)} />
+          <Button className='w-2 mb-4 mr-2' label='Previous' disabled={loading || page == 0} onClick={() => setPage(page - 1)} />
+          <Button className='w-2 mb-4' label='Next' disabled={loading || reviews.length < 10} onClick={() => setPage(page + 1)} />
         </div>
       }
     </>
