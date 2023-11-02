@@ -106,7 +106,7 @@ const MovieDetails = () => {
           backgroundSize: 'cover'}}>
           <div className='container grid justify-content-center align-items-center'>
             <div className='md:col-2 sm:col-12 poster-container mr-3'>
-              <img src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${movieDetails?.posterPath}`} alt={`${movieDetails?.title}`}/>
+              <img src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${movieDetails?.posterPath}`} alt={`${movieDetails?.title}`} className='shadow-8'/>
             </div>
             <div className='md:col-8 sm:col-12 flex flex-column'>
               <div className='flex flex-column'>
