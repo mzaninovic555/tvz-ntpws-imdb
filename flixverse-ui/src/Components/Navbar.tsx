@@ -53,6 +53,7 @@ const Navbar = () => {
     toast?.current?.show(createNewToast('Logged out successfully', 'success'));
   };
 
+
   const userMenuItems: MenuItem[] = [
     {
       label: auth.authInfo.info?.name ?? 'User',
@@ -93,12 +94,13 @@ const Navbar = () => {
     }
   ];
 
+
   const searchForItemByType = () => {
     if (!selectedType || !searchTerm || searchTerm === '') {
       return;
     }
     const prefix = selectedType === ItemType.Movie ? '/movies' : 'tv-shows';
-    navigate(prefix, {state: searchTerm});
+    navigate(`${prefix}?search=${searchTerm}`);
   };
 
   const authDiv = (

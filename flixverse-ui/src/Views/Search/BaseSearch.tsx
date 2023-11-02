@@ -3,7 +3,7 @@ import {DataView} from 'primereact/dataview';
 import {useEffect, useRef, useState} from 'react';
 import {GenericItemResponse} from '../../common/response/GenericItemResponse.ts';
 import {getBySearchTerm, getFiltered} from './SearchApi.ts';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import './search.css';
 import {Button} from 'primereact/button';
 import {ProgressSpinner} from 'primereact/progressspinner';
@@ -33,24 +33,26 @@ const BaseSearch = (props: SearchProps) => {
     releaseDateTo: undefined,
     genres: []
   });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [queryParam, setQueryParam] = useSearchParams();
 
   const isLoadedBySearchTerm = useRef<boolean>();
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     void fetchGenres();
 
-    const searchTerm = location.state as string | undefined | null;
+    const searchTerm = queryParam.get('search') as string | undefined | null;
     if (!searchTerm || searchTerm === '') {
       isLoadedBySearchTerm.current = false;
       void fetchByType();
     } else {
       isLoadedBySearchTerm.current = true;
+      setSearchTerm(searchTerm);
       void fetchByTypeWithSearchTerm(searchTerm);
     }
-  }, [page, props.type]);
+  }, [page, props.type, searchTerm, queryParam]);
 
   const fetchByType = async () => {
     const res = await getFiltered(props.type, page, filterValues).catch(); // TODO: error handling
@@ -155,7 +157,7 @@ const BaseSearch = (props: SearchProps) => {
       {loading && <ProgressSpinner />}
       {searchItems && !loading &&
         <div className='container'>
-          {!isLoadedBySearchTerm &&
+          {!isLoadedBySearchTerm.current &&
             <div className='flex justify-content-center mb-4'>
               <Calendar value={filterValues.releaseDateFrom} onChange={(e) => setFromDate(e.value)}
                 className='mr-2' placeholder='From date' showIcon />
