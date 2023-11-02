@@ -23,18 +23,18 @@ import Review from '../../Components/Review/Review.tsx';
 const SeriesDetails = () => {
   const [seriesDetails, setSeriesDetails] = useState<SeriesDetailsType>();
   const [isWatchlistAdded, setIsWatchlistAdded] = useState(true);
-  const auth = useAuth();
-  const toast = useToast();
-  const [reviewAdded, setReviewAdded] = useState(false);
   const [reviewModalVisible, setReviewModalVisible] = useState(false);
-
   const [newReviewGrade, setNewReviewGrade] = useState<number>();
   const [newReviewText, setNewReviewText] = useState<string>();
 
+  const [reviewRef, setReviewRef] = useState(0);
+
+  const auth = useAuth();
+  const toast = useToast();
 
   const params = useParams();
 
-  useEffect(() => void fetchSeriesDetails(), [reviewAdded]);
+  useEffect(() => void fetchSeriesDetails(), [reviewRef]);
 
   const fetchSeriesDetails = async () => {
     const seriesId = params.seriesId;
@@ -63,6 +63,8 @@ const SeriesDetails = () => {
 
   const createNewReview = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setReviewModalVisible(false);
+
     if (!newReviewText || !newReviewGrade) {
       return;
     }
@@ -78,7 +80,7 @@ const SeriesDetails = () => {
       return;
     }
     toast.toast?.current?.show(createNewToast(res.message || 'Added review', 'success', true));
-    setReviewAdded(true);
+    setReviewRef((prevState) => prevState + 1);
   };
 
   const handleError = (error: AxiosError<BasicResponse>) => {
@@ -163,7 +165,7 @@ const SeriesDetails = () => {
           </div>
         </section>
         <CastCarousel cast={seriesDetails.cast} />
-        <Review itemId={seriesDetails.id} itemType={ItemType.Movie} />
+        <Review key={reviewRef} itemId={seriesDetails.id} itemType={ItemType.Show} />
       </main>
     }
   </>

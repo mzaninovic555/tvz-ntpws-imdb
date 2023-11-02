@@ -23,18 +23,18 @@ import {addNewReview} from '../../Components/Review/ReviewApi.ts';
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState<MovieDetailsType>();
   const [isWatchlistAdded, setIsWatchlistAdded] = useState(true);
-  const [reviewAdded, setReviewAdded] = useState(false);
   const [reviewModalVisible, setReviewModalVisible] = useState(false);
-
   const [newReviewGrade, setNewReviewGrade] = useState<number>();
   const [newReviewText, setNewReviewText] = useState<string>();
+
+  const [reviewRef, setReviewRef] = useState(0);
 
   const auth = useAuth();
   const toast = useToast();
 
   const params = useParams();
 
-  useEffect(() => void fetchMovieDetails(), [reviewAdded]);
+  useEffect(() => void fetchMovieDetails(), [reviewRef]);
 
   const fetchMovieDetails = async () => {
     const movieId = params.movieId;
@@ -63,6 +63,8 @@ const MovieDetails = () => {
 
   const createNewReview = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setReviewModalVisible(false);
+
     if (!newReviewText || !newReviewGrade) {
       return;
     }
@@ -78,7 +80,7 @@ const MovieDetails = () => {
       return;
     }
     toast.toast?.current?.show(createNewToast(res.message || 'Added review', 'success', true));
-    setReviewAdded(true);
+    setReviewRef((prevState) => prevState + 1);
   };
 
   const handleError = (error: AxiosError<BasicResponse>) => {
@@ -164,7 +166,7 @@ const MovieDetails = () => {
           </div>
         </section>
         <CastCarousel cast={movieDetails.cast} />
-        <Review itemId={movieDetails.id} itemType={ItemType.Movie} />
+        <Review key={reviewRef} itemId={movieDetails.id} itemType={ItemType.Movie} />
       </main>
     }
   </>

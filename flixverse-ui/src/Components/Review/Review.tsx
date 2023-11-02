@@ -49,7 +49,7 @@ const Review = (props: ReviewProps) => {
       {!loading && reviews.length > 0 &&
         <div className='container-70'>
           <h2 className='text-primary-900'>Reviews</h2>
-          <Accordion activeIndex={0} multiple className='mb-2'>
+          <Accordion activeIndex={0} multiple className='mb-2 text-left'>
             {reviews.map((review, i) =>
               <AccordionTab key={review.id + review.authorUsername + i} header={headerTemplate(review)}>
                 <Markdown>{review.text}</Markdown>
