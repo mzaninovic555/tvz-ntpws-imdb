@@ -15,6 +15,6 @@ export async function getReviewsForItem(page: number, itemId: number, itemType: 
 }
 
 export async function addNewReview(request: ReviewRequest): Promise<BasicResponse> {
-  const response = await api.post<BasicResponse>(`/reviews`, request);
+  const response = await api.post<BasicResponse>(`/reviews`, {...request});
   return response?.data;
 }

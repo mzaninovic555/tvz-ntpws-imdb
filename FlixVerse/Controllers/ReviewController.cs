@@ -60,11 +60,18 @@ public class ReviewController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public IActionResult InsertNewReview(ReviewRequest request)
+    public IActionResult InsertNewReview([FromBody]ReviewRequest request)
     {
         var user = _jwtService.GetUsernameFromContext();
 
-        var newReview = new Review(request.ItemId, request.ItemType, request.Text, request.Grade, user!.Id);
+        var isparsed = ItemType.TryParse(request.ItemType, out ItemType itemTypeType);
+
+        if (!isparsed)
+        {
+            return BadRequest("Something went wrong");
+        }
+
+        var newReview = new Review(request.ItemId, itemTypeType, request.Text, request.Grade, user!.Id);
         var reviewExists = _reviewRepository
             .GetByCondition(review => review.ItemId == newReview.ItemId && review.UserId == user!.Id)
             .Any();

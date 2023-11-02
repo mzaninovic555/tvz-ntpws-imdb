@@ -9,9 +9,8 @@ public class ReviewRequest
     public int ItemId { get; set; }
 
     [Required]
-    public ItemType ItemType { get; set; }
+    public string ItemType { get; set; }
 
-    [Required]
     public string Text { get; set; }
 
     [Required]
