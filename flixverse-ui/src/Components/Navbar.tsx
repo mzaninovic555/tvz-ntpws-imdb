@@ -132,7 +132,7 @@ const Navbar = () => {
         value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
         style={{borderTopLeftRadius: 'unset', borderBottomLeftRadius: 'unset',
           borderTopRightRadius: 'unset', borderBottomRightRadius: 'unset'}} />
-      <Button severity='warning' className='mr-2 px-4' icon='pi pi-search'
+      <Button severity='help' className='mr-2 px-4' icon='pi pi-search'
         style={{borderTopLeftRadius: 'unset', borderBottomLeftRadius: 'unset'}}
         onClick={searchForItemByType}/>
       {authDiv}
