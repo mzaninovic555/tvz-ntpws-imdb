@@ -33,7 +33,7 @@ public class TmdbUtils
     public static List<WatchProviderItem>? GetWatchProvidersFromMovie(Movie fetchedMovie)
     {
         return fetchedMovie.WatchProviders.Results
-            .SingleOrDefault(p => p.Key == "US")
+            .SingleOrDefault(p => p.Key == "HR")
             .Value
             ?.FlatRate; // TODO: get locale from browser
     }
@@ -41,7 +41,7 @@ public class TmdbUtils
     public static List<WatchProviderItem>? GetWatchProvidersFromSeries(TvShow fetchedShow)
     {
         return fetchedShow.WatchProviders.Results
-            .SingleOrDefault(p => p.Key == "US")
+            .SingleOrDefault(p => p.Key == "HR")
             .Value
             ?.FlatRate; // TODO: get locale from browser
     }

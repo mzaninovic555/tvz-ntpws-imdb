@@ -112,7 +112,7 @@ const SeriesDetails = () => {
             </div>
             <div className='sm:mt-5 md:col-8 sm:col-12 flex flex-column'>
               <div className='flex flex-column'>
-                <div className='flex align-items-center'>
+                <div className='flex align-items-center mb-3'>
                   <h1 className='mr-2 my-1'>
                     {seriesDetails?.title} {seriesDetails?.startReleaseDate ? `(${new Date(seriesDetails.startReleaseDate).getFullYear()}` : ''}
                     {seriesDetails?.endReleaseDate && seriesDetails.status == 'Ended' ?

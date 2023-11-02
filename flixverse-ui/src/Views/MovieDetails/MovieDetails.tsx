@@ -112,7 +112,7 @@ const MovieDetails = () => {
             </div>
             <div className='md:col-8 sm:col-12 flex flex-column'>
               <div className='flex flex-column'>
-                <div className='flex align-items-center'>
+                <div className='flex align-items-center mb-3'>
                   <h1 className='mr-2 my-1'>
                     {movieDetails?.title} {movieDetails?.releaseDate ? `(${new Date(movieDetails.releaseDate).getFullYear()})` : ''}
                   </h1>
