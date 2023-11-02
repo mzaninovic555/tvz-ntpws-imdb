@@ -58,15 +58,26 @@ public class ReviewController : ControllerBase
         return Ok(res);
     }
 
+    [HttpGet("score")]
+    public IActionResult GetReviewScoreForItem(long itemId, ItemType type)
+    {
+        var filtered = _dbContext.Reviews
+            .Where(item => item.ItemType == type && item.ItemId == itemId);
+
+        return !filtered.Any()
+            ? Ok(0)
+            : Ok(filtered.Average(item => item.Grade));
+    }
+
     [HttpPost]
     [Authorize]
     public IActionResult InsertNewReview([FromBody]ReviewRequest request)
     {
         var user = _jwtService.GetUsernameFromContext();
 
-        var isparsed = ItemType.TryParse(request.ItemType, out ItemType itemTypeType);
+        var isParsed = ItemType.TryParse(request.ItemType, out ItemType itemTypeType);
 
-        if (!isparsed)
+        if (!isParsed)
         {
             return BadRequest("Something went wrong");
         }
