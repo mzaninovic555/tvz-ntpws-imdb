@@ -153,7 +153,8 @@ const BaseSearch = (props: SearchProps) => {
 
   return (
     <>
-      <h1 className='text-800'>Popular {props.type == ItemType.Movie ? 'movies' : 'shows'}</h1>
+      {searchTerm && searchTerm !== '' && <h1 className='text-800'>Results for &quot;{searchTerm}&quot;</h1> }
+      {!searchTerm || searchTerm === '' && <h1 className='text-800'>Popular {props.type == ItemType.Movie ? 'movies' : 'shows'}</h1>}
       {loading && <ProgressSpinner />}
       {searchItems && !loading &&
         <div className='container'>
