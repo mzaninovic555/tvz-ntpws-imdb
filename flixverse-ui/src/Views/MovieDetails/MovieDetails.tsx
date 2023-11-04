@@ -92,12 +92,12 @@ const MovieDetails = () => {
     {!movieDetails && <ProgressSpinner />}
     {movieDetails &&
       <main>
-        <Dialog header="Create new review" visible={reviewModalVisible} style={{width: '30vw'}}
+        <Dialog header="Create new review" visible={reviewModalVisible} className='w-4'
           onHide={() => setReviewModalVisible(false)}>
           <form onSubmit={(e) => createNewReview(e)}>
             <Rating value={newReviewGrade} required className='mb-2'
               onChange={(e : RatingChangeEvent) => setNewReviewGrade(e.value)} cancel={false} />
-            <InputTextarea className='mb-2' rows={5} cols={40} value={newReviewText} required
+            <InputTextarea className='mb-2 w-12' rows={5} cols={40} value={newReviewText} required
               onChange={(e) => setNewReviewText(e.target.value)} />
             <Button type={'submit'} label='Create review' />
           </form>

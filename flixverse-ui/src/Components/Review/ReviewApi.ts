@@ -27,3 +27,13 @@ export async function getReviewAverageForItem(itemId: number, itemType: ItemType
   const response = await api.get<number>(`/reviews/score?${url.toString()}`);
   return response?.data;
 }
+
+export async function updateReview(request: ReviewRequest): Promise<BasicResponse> {
+  const response = await api.put<BasicResponse>(`/reviews`, {...request});
+  return response?.data;
+}
+
+export async function deleteReview(request: ReviewRequest): Promise<BasicResponse> {
+  const response = await api.delete<BasicResponse>(`/reviews`, {data: {...request}});
+  return response?.data;
+}
