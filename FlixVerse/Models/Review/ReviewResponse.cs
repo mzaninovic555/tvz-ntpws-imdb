@@ -8,7 +8,7 @@ public class ReviewResponse
 
     public int ItemId { get; set; }
 
-    public ItemType ItemType { get; set; }
+    public string ItemType { get; set; }
 
     public string Text { get; set; }
 
@@ -22,7 +22,7 @@ public class ReviewResponse
     {
         Id = id;
         ItemId = itemId;
-        ItemType = itemType;
+        ItemType = itemType.ToString();
         Text = text;
         Grade = grade;
         UserId = userId;

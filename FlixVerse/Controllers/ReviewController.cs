@@ -13,7 +13,7 @@ namespace FlixVerse.Controllers;
 [Route("reviews")]
 public class ReviewController : ControllerBase
 {
-    private const int PageMultiplier = 10;
+    private const int PageMultiplier = 5;
 
     private readonly ReviewRepository _reviewRepository;
     private readonly JwtService _jwtService;
@@ -93,5 +93,58 @@ public class ReviewController : ControllerBase
 
         _reviewRepository.Create(newReview);
         return Ok(new BasicResponse("Review added"));
+    }
+
+    [HttpPut]
+    [Authorize]
+    public IActionResult EditReview([FromBody]ReviewRequest request)
+    {
+        var user = _jwtService.GetUsernameFromContext();
+        var isParsed = ItemType.TryParse(request.ItemType, out ItemType itemTypeType);
+
+        if (!isParsed)
+        {
+            return BadRequest("Something went wrong");
+        }
+
+        var existingReview = _reviewRepository.GetByCondition(review =>
+            review.UserId == user!.Id && review.ItemId == request.ItemId && review.ItemId == request.ItemId).FirstOrDefault();
+
+        if (existingReview == null)
+        {
+            return NotFound("Review not found");
+        }
+
+        existingReview.Grade = request.Grade;
+        existingReview.Text = request.Text;
+        _reviewRepository.Update(existingReview);
+        return Ok(new BasicResponse("Review edited"));
+    }
+
+    [HttpDelete]
+    [Authorize]
+    public IActionResult DeleteReview([FromBody]ReviewRequest request)
+    {
+        var user = _jwtService.GetUsernameFromContext();
+        var isParsed = ItemType.TryParse(request.ItemType, out ItemType itemTypeType);
+
+        if (!isParsed)
+        {
+            return BadRequest("Something went wrong");
+        }
+
+        var existingReview = _reviewRepository.GetByCondition(review =>
+            review.UserId == user!.Id
+            && review.ItemType == itemTypeType
+            && review.ItemId == request.ItemId
+            && review.ItemId == request.ItemId).FirstOrDefault();
+
+        if (existingReview == null)
+        {
+            return NotFound("Review not found");
+        }
+
+        _reviewRepository.Delete(existingReview);
+        return Ok(new BasicResponse("Review deleted"));
     }
 }
