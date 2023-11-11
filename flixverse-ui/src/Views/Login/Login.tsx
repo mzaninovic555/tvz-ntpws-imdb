@@ -94,10 +94,10 @@ const Login = () => {
             required register={register} />
           <div className='flex flex-column align-self-center align-items-center mt-2'>
             <Button icon="pi pi-check" type='submit' label='Login' loading={loadingLogin} className='mb-2 w-12rem' />
-            <Button icon="pi pi-google" label="Google" type="button" onClick={loginGoogle} className='mb-2 w-12rem text-color border-200'
+            {/** <Button icon="pi pi-google" label="Google" type="button" onClick={loginGoogle} className='mb-2 w-12rem text-color border-200'
               style={{background: 'rgba(255,255,255,0.79)'}}/>
-            <Button icon="pi pi-github" label="Github" type="button" onClick={loginGithub} className='w-12rem mb-3'
-              style={{background: '#23282c', borderColor: '#24292d'}}/>
+            <Button icon="pi pi-github" label="GitHub" type="button" onClick={loginGithub} className='w-12rem mb-3'
+              style={{background: '#23282c', borderColor: '#24292d'}}/>**/}
             <Link to='/register' className='auth-link'>Register here</Link>
           </div>
         </form>
