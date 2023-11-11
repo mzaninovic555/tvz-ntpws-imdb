@@ -25,11 +25,12 @@ const Watchlist = (props: WatchlistItemType) => {
   const [watchlistItems, setWatchlistItems] = useState<UserWatchlistItem[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isEdited, setIsEdited] = useState(0);
 
   const toast = useToast();
   const navigate = useNavigate();
 
-  useEffect(() => void fetchWatchlistItems(), [page, props.type]);
+  useEffect(() => void fetchWatchlistItems(), [page, props.type, isEdited]);
 
   const fetchWatchlistItems = async () => {
     setLoading(true);
@@ -67,15 +68,7 @@ const Watchlist = (props: WatchlistItemType) => {
       return;
     }
     toast.toast?.current?.show(createNewToast(res.message || 'Set as completed', 'info'));
-    setWatchlistItems((prev) => {
-      const copy = prev.slice();
-      const f = copy.find((c) => c.watchlistItem.id == entryId);
-      if (!f) {
-        return copy;
-      }
-      copy.splice(copy.indexOf(f), 1);
-      return copy;
-    });
+    setIsEdited((prev) => prev + 1);
   };
 
   const removeEntry = async (entryId: number) => {
@@ -84,15 +77,7 @@ const Watchlist = (props: WatchlistItemType) => {
       return;
     }
     toast.toast?.current?.show(createNewToast(res.message || 'Entry removed', 'info'));
-    setWatchlistItems((prev) => {
-      const copy = prev.slice();
-      const f = copy.find((c) => c.watchlistItem.id == entryId);
-      if (!f) {
-        return copy;
-      }
-      copy.splice(copy.indexOf(f), 1);
-      return copy;
-    });
+    setIsEdited((prev) => prev + 1);
   };
 
   const setAsInProgress = async (entryId: number) => {
@@ -101,15 +86,7 @@ const Watchlist = (props: WatchlistItemType) => {
       return;
     }
     toast.toast?.current?.show(createNewToast(res.message || 'Set as in progress', 'info'));
-    setWatchlistItems((prev) => {
-      const copy = prev.slice();
-      const f = copy.find((c) => c.watchlistItem.id == entryId);
-      if (!f) {
-        return copy;
-      }
-      copy.splice(copy.indexOf(f), 1);
-      return copy;
-    });
+    setIsEdited((prev) => prev + 1);
   };
 
   const handleFailure = (e: AxiosError<BasicResponse>) => {

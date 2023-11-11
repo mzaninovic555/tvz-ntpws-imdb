@@ -151,8 +151,8 @@ const Review = (props: ReviewProps) => {
         </form>
       </Dialog>
       {loading && <ProgressSpinner />}
-      {!loading && reviews.length == 0 && <h2 className='text-primary-900'>No reviews found</h2> }
-      {!loading && reviews.length > 0 &&
+      {!loading && reviews.length == 0 && !authenticatedReview && <h2 className='text-primary-900'>No reviews found</h2> }
+      {!loading && (reviews.length > 0 || authenticatedReview) &&
         <div className='container-70'>
           <div className='flex mb-2'>
             <h2 className='text-primary-900 pr-4 mr-4 border-right-1'>Reviews</h2>
