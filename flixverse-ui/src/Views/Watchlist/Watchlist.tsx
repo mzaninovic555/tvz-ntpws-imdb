@@ -140,7 +140,9 @@ const Watchlist = (props: WatchlistItemType) => {
     return (
       <div className="mx-2 mb-4 sm:col-4 md:col-3 lg:col-2 pb-3 shadow-3 border-round flex flex-column justify-content-center align-items-center">
         <div className="flex flex-column align-items-center search-item-container cursor-pointer"
-          onClick={() => naviagateToType(item.watchlistItem.itemId, item.watchlistItem.type)}>
+          onClick={() => {
+            naviagateToType(item.watchlistItem.itemId, item.watchlistItem.type);
+          }}>
           <img className="w-12 shadow-2 border-round-top"
             src={`${TmdbConst.TMDB_IMAGE_PREFIX_URL}${item.posterPath}`} alt={item.title} />
           <h4>{item.title}</h4>
@@ -159,7 +161,8 @@ const Watchlist = (props: WatchlistItemType) => {
       {watchlistItems && !loading &&
           <div className='mt-5'>
             <h2 className='text-primary-900'>{props.type == 'inProgress' ? 'Your watchlist' : 'Your completed list'}</h2>
-            <DataView value={watchlistItems} itemTemplate={props.type == 'inProgress' ? inProgressTemplate : completedTemplate} layout='grid' />
+            <DataView className='mb-4' value={watchlistItems}
+              itemTemplate={props.type == 'inProgress' ? inProgressTemplate : completedTemplate} layout='grid' />
             <Button className='w-2 mb-4 mr-2' label='Load previous' disabled={loading || page == 0} onClick={() => setPage(page - 1)} />
             <Button className='w-2 mb-4' label='Load next' disabled={loading || watchlistItems.length < 5} onClick={() => setPage(page + 1)} />
           </div>

@@ -37,12 +37,12 @@ public class WatchlistService
                 return new UserWatchlistResponse(
                     item.Result.Name,
                     item.Result.PosterPath,
-                    new WatchlistItem(
+                    new WatchlistItemResponse(
                         watchlistItem.Id,
                         item.Result.Id,
-                        ItemType.Show,
-                        user!.Id,
-                        watchlistItem.Status
+                        ItemType.Show.ToString(),
+                        watchlistItem.Status,
+                        user!.Id
                     ));
             }).ToList();
 
@@ -54,12 +54,12 @@ public class WatchlistService
                 return new UserWatchlistResponse(
                     item.Result.Title,
                     item.Result.PosterPath,
-                    new WatchlistItem(
+                    new WatchlistItemResponse(
                         watchlistItem.Id,
                         item.Result.Id,
-                        ItemType.Show,
-                        user!.Id,
-                        watchlistItem.Status
+                        ItemType.Movie.ToString(),
+                        watchlistItem.Status,
+                    user!.Id
                     ));
             }).ToList();
 

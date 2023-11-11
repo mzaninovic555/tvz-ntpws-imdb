@@ -60,15 +60,6 @@ const Navbar = () => {
       icon: 'pi pi-user',
       items: [
         {
-          label: 'Settings',
-          icon: 'pi pi-cog',
-          url: '/settings',
-          command(event: MenuItemCommandEvent) {
-            event.originalEvent?.preventDefault();
-            navigate('/settings');
-          }
-        },
-        {
           label: 'Watchlist',
           icon: 'pi pi-bookmark',
           url: '/watchlist',
