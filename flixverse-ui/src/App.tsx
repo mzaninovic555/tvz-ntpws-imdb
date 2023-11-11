@@ -4,6 +4,7 @@ import RoutesConfig from './routes/RoutesConfig.tsx';
 import AuthWrapper from './common/authentication/AuthWrapper.tsx';
 import Navbar from './Components/Navbar.tsx';
 import ToastWrapper from './Components/ToastWrapper.tsx';
+import Footer from './Components/Footer.tsx';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <RoutesConfig />
+          <Footer />
         </BrowserRouter>
       </AuthWrapper>
     </ToastWrapper>

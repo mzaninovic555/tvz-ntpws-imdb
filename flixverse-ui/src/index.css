@@ -54,3 +54,7 @@ body {
 .carousel-item:hover {
   opacity: 80%;
 }
+
+.footer-img {
+  width: 20%;
+}
