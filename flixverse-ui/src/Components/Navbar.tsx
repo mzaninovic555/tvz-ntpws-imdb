@@ -50,6 +50,7 @@ const Navbar = () => {
 
   const logOut = () => {
     auth.setToken(undefined);
+    navigate('/');
     toast?.current?.show(createNewToast('Logged out successfully', 'success'));
   };
 

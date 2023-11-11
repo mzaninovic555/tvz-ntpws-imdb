@@ -17,6 +17,7 @@ const AuthWrapper = (props: JSXChildrenProps) => {
   });
 
   const initAuthenticationInfo = () => {
+    console.debug(token);
     if (!token) {
       return {authenticated: false};
     }
